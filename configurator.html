@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferrari | Configurator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="theme.js"></script>
+</head>
+<body class="bg-black text-white h-screen flex flex-col md:flex-row overflow-hidden">
+
+    <a href="models.html" class="absolute top-6 right-6 z-50 text-white hover:text-ferrari-red transition text-sm font-bold uppercase tracking-widest">
+        Exit <i class="fas fa-times ml-2"></i>
+    </a>
+
+    <div class="w-full md:w-2/3 h-1/2 md:h-full relative bg-gray-900 flex items-center justify-center">
+        <div class="relative w-full max-w-4xl px-4 h-full flex items-center justify-center">
+            <div class="absolute top-0 left-0 p-8 w-full z-20 pointer-events-none">
+                <h3 class="text-ferrari-red font-bold tracking-widest uppercase text-sm mb-1">Configurator</h3>
+                <h2 id="configurator-title" class="font-display text-4xl uppercase text-white">Loading...</h2>
+            </div>
+
+            <div id="car-preview-container" class="relative w-full aspect-[3/2] transition-all duration-1000 ease-in-out">
+                <canvas id="car-canvas" class="absolute inset-0 z-10"></canvas>
+                <img id="source-image" crossorigin="anonymous" src="" alt="Ferrari Source">
+
+                <div id="rim-overlay-rear" class="wheel-overlay bg-black mix-blend-multiply opacity-0 z-20" style="top: 52%; left: 70%; width: 14%; height: 25%;"></div>
+                <div id="rim-overlay-front" class="wheel-overlay bg-black mix-blend-multiply opacity-0 z-20" style="top: 52%; left: 23%; width: 13.5%; height: 25%;"></div>
+                <div id="caliper-overlay-rear" class="wheel-overlay bg-yellow-400 opacity-0 z-20" style="top: 57%; left: 74%; width: 5%; height: 9%;"></div>
+                <div id="caliper-overlay-front" class="wheel-overlay bg-yellow-400 opacity-0 z-20" style="top: 57%; left: 32%; width: 5%; height: 9%;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full md:w-1/3 h-1/2 md:h-full bg-ferrari-dark border-l border-gray-800 flex flex-col">
+        <div class="flex-1 overflow-y-auto p-8 custom-scrollbar">
+            
+            <div class="mb-10">
+                <h4 class="font-display text-lg uppercase mb-4 flex justify-between items-center cursor-pointer" onclick="resetZoom()">
+                    Exterior <span class="text-ferrari-red text-xs font-bold tracking-widest">Standard</span>
+                </h4>
+                <div class="flex flex-wrap gap-4">
+                    <button onclick="changeColor('red')" class="w-10 h-10 rounded-full bg-red-600 color-swatch active" title="Rosso Corsa"></button>
+                    <button onclick="changeColor('yellow')" class="w-10 h-10 rounded-full bg-yellow-400 color-swatch" title="Giallo Modena"></button>
+                    <button onclick="changeColor('black')" class="w-10 h-10 rounded-full bg-black border border-gray-700 color-swatch" title="Nero"></button>
+                    <button onclick="changeColor('silver')" class="w-10 h-10 rounded-full bg-gray-300 color-swatch" title="Argento Nurburgring"></button>
+                    <button onclick="changeColor('blue')" class="w-10 h-10 rounded-full bg-blue-800 color-swatch" title="Blu Tour de France"></button>
+                </div>
+            </div>
+
+            <div class="mb-10">
+                <h4 class="font-display text-lg uppercase mb-4">Rims</h4>
+                <div class="space-y-3">
+                    <button onclick="selectOption(this, 'rims', 0, 'standard')" class="option-btn active w-full text-left p-4 border border-gray-800 bg-gray-900/50 flex justify-between">
+                        <span class="text-sm font-bold uppercase text-white">Standard</span>
+                        <span class="text-xs text-gray-500">Included</span>
+                    </button>
+                    <button onclick="selectOption(this, 'rims', 15000, 'carbon')" class="option-btn w-full text-left p-4 border border-gray-800 bg-gray-900/50 flex justify-between">
+                        <span class="text-sm font-bold uppercase text-gray-300">Dark Finish</span>
+                        <span class="text-xs text-gray-500">$15,000</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mb-10">
+                <h4 class="font-display text-lg uppercase mb-4">Brake Calipers</h4>
+                <div class="space-y-3">
+                    <button onclick="selectOption(this, 'calipers', 0, 'silver')" class="option-btn active w-full text-left p-4 border border-gray-800 bg-gray-900/50 flex justify-between">
+                        <span class="text-sm font-bold uppercase text-white">Standard</span>
+                        <span class="text-xs text-gray-500">Included</span>
+                    </button>
+                    <button onclick="selectOption(this, 'calipers', 4000, 'yellow')" class="option-btn w-full text-left p-4 border border-gray-800 bg-gray-900/50 flex justify-between">
+                        <span class="text-sm font-bold uppercase text-gray-300">Giallo Modena</span>
+                        <span class="text-xs text-gray-500">$4,000</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-8 border-t border-gray-800 bg-black">
+            <div class="flex justify-between items-end mb-4">
+                <span class="text-xs font-bold uppercase tracking-widest text-gray-500">Total Price</span>
+                <span id="total-price" class="font-display text-2xl text-white">$550,000</span>
+            </div>
+            <button onclick="proceedToCheckout()" class="w-full bg-ferrari-red text-white py-4 text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-black transition duration-300">
+                Request Quote
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #111;
+}
+::-webkit-scrollbar-thumb {
+    background: #D40000;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #b30000;
+}
+
+/* Utility Classes */
+.text-shadow {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Navigation Hover Effect */
+.nav-link {
+    position: relative;
+}
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: #D40000;
+    transition: width 0.3s ease;
+}
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Parallax & Hero */
+/* Note: hero.png needs to exist or replace with external URL in CSS if strictly needed */
+.hero-bg {
+    background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1592198084033-aade902d1aae?q=80&w=2940&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* Card Hover Zoom */
+.card-zoom {
+    overflow: hidden;
+}
+.card-zoom img {
+    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.card-zoom:hover img {
+    transform: scale(1.05);
+}
+
+/* Loading Screen */
+#loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease-out;
+}
+
+.prancing-horse-loader {
+    font-size: 80px;
+    display: inline-block;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.5; transform: scale(0.95); }
+    50% { opacity: 1; transform: scale(1.05); }
+    100% { opacity: 0.5; transform: scale(0.95); }
+}
+
+/* CONFIGURATOR STYLES */
+.config-overlay {
+    mix-blend-mode: overlay;
+    transition: background-color 0.5s ease;
+}
+
+.option-btn.active {
+    border-color: #D40000;
+    color: white;
+}
+
+.color-swatch {
+    transition: transform 0.2s;
+}
+.color-swatch:hover {
+    transform: scale(1.1);
+}
+.color-swatch.active {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 2px white, 0 0 0 4px #D40000;
+}
+
+/* IMAGE MANIPULATION CLASSES */
+#car-preview-container {
+    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    transform-origin: center center;
+    position: relative;
+}
+
+#car-canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Zoom States */
+.zoom-wheel {
+    transform: scale(2.8) translate(-10%, -15%); /* Zoom to rear wheel area */
+}
+
+/* Fallback Filters (Only used if Canvas fails) */
+.filter-fallback-red { filter: sepia(0) hue-rotate(0deg) saturate(1) brightness(1); }
+.filter-fallback-yellow { filter: sepia(0) hue-rotate(45deg) saturate(2.5) brightness(1.5); }
+.filter-fallback-black { filter: grayscale(100%) brightness(0.6) contrast(1.2); }
+.filter-fallback-silver { filter: grayscale(100%) brightness(1.1) contrast(1.1); }
+.filter-fallback-blue { filter: hue-rotate(220deg) saturate(1.5) brightness(0.8); }
+.filter-fallback-green { filter: hue-rotate(90deg) saturate(0.8) brightness(0.8); }
+
+/* Rim/Caliper Overlays */
+.wheel-overlay {
+    position: absolute;
+    transition: all 0.5s ease;
+    pointer-events: none;
+    border-radius: 50%;
+}
+
+/* Helper to hide raw image used for canvas source */
+#source-image {
+    display: none;
+}
+
+/* Modal Transitions */
+.modal-enter {
+    opacity: 0;
+    transform: scale(0.95);
+}
+.modal-enter-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 300ms, transform 300ms;
+}
+.modal-exit {
+    opacity: 1;
+    transform: scale(1);
+}
+.modal-exit-active {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 300ms, transform 300ms;
+}

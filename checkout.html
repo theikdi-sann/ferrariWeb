@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferrari | Request Quote</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="theme.js"></script>
+</head>
+<body class="bg-ferrari-black text-white font-sans antialiased flex items-center justify-center min-h-screen p-6">
+
+    <div class="bg-ferrari-dark border border-gray-800 w-full max-w-2xl p-8 relative shadow-2xl">
+        <div class="text-center mb-8">
+            <h2 class="font-display text-3xl uppercase text-white">Finalize Request</h2>
+            <div class="w-12 h-1 bg-ferrari-red mx-auto mt-4"></div>
+            <p id="checkout-summary" class="mt-4 text-gray-400 text-sm tracking-widest uppercase">
+                </p>
+        </div>
+
+        <form id="checkout-form" onsubmit="handleCheckout(event)" class="space-y-6">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="space-y-2">
+                    <label class="text-xs font-bold uppercase tracking-widest text-gray-400">First Name</label>
+                    <input type="text" required class="w-full bg-black border border-gray-800 text-white px-4 py-3 text-sm focus:border-ferrari-red outline-none">
+                </div>
+                <div class="space-y-2">
+                    <label class="text-xs font-bold uppercase tracking-widest text-gray-400">Last Name</label>
+                    <input type="text" required class="w-full bg-black border border-gray-800 text-white px-4 py-3 text-sm focus:border-ferrari-red outline-none">
+                </div>
+            </div>
+            <div class="space-y-2">
+                <label class="text-xs font-bold uppercase tracking-widest text-gray-400">Email Address</label>
+                <input type="email" required class="w-full bg-black border border-gray-800 text-white px-4 py-3 text-sm focus:border-ferrari-red outline-none">
+            </div>
+
+            <button type="submit" class="w-full bg-ferrari-red text-white py-4 text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-black transition duration-300 mt-4">
+                Submit Request
+            </button>
+        </form>
+
+        <div id="success-message" class="hidden text-center mt-6 animate-fade-in-up">
+            <div class="text-ferrari-red text-4xl mb-2"><i class="fas fa-check-circle"></i></div>
+            <h3 class="font-display text-2xl uppercase">Request Sent</h3>
+            <p class="text-gray-500 text-sm mt-2">A dealer will contact you shortly.</p>
+            <a href="index.html" class="inline-block mt-4 text-xs font-bold uppercase underline">Return Home</a>
+        </div>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
