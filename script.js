@@ -66,7 +66,9 @@ if (document.getElementById('3d-container')) {
     function init() {
         // Scene
         scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x111111); // Dark gray background
+        const studioColor = 0xe0e0e0; // Premium Studio Gray
+        scene.background = new THREE.Color(studioColor);
+        scene.fog = new THREE.Fog(studioColor, 10, 50); // Seamless floor blending
 
         // Camera
         camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
@@ -75,37 +77,57 @@ if (document.getElementById('3d-container')) {
         // Renderer
         renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); // Alpha for transparent bg if needed
         renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.shadowMap.enabled = true; // Enable shadows
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Soft shadows
         renderer.toneMapping = THREE.ACESFilmicToneMapping; // Better color handling
         renderer.toneMappingExposure = 1.2; // Increase overall brightness
         renderer.outputEncoding = THREE.sRGBEncoding;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Soft shadows
         container.appendChild(renderer.domElement);
 
-        // --- LIGHTING SETUP (IMPROVED) ---
+        // --- NATURAL STUDIO LIGHTING ---
         
-        // 1. Ambient Light (Base illumination)
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6); // Increased intensity
+        // 1. Soft Ambient (Fill)
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
         scene.add(ambientLight);
 
-        // 2. Hemisphere Light (Sky/Ground simulation)
-        const hemisphereLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1.5); // Increased intensity
-        hemisphereLight.position.set(0, 20, 0);
+        // 2. Hemisphere (Sky/Ground reflection simulation) - Cool Sky, Warm Ground
+        const hemisphereLight = new THREE.HemisphereLight(0xffffff, 0xe0e0e0, 0.5);
         scene.add(hemisphereLight);
 
-        // 3. Directional Light (Key Light - Sun)
-        const dirLight = new THREE.DirectionalLight(0xffffff, 3.0); // Strong key light
-        dirLight.position.set(5, 10, 7.5);
-        dirLight.castShadow = true;
-        scene.add(dirLight);
+        // 3. Main Key Light (Soft SpotLight simulating a large softbox)
+        const mainLight = new THREE.SpotLight(0xffffff, 1.5);
+        mainLight.position.set(5, 12, 5);
+        mainLight.angle = Math.PI / 4;
+        mainLight.penumbra = 0.5; // Soft edges
+        mainLight.castShadow = true;
+        mainLight.shadow.mapSize.width = 2048; // High res shadows
+        mainLight.shadow.mapSize.height = 2048;
+        mainLight.shadow.bias = -0.0001;
+        scene.add(mainLight);
 
-        // 4. Fill Light (Opposite side)
-        const fillLight = new THREE.DirectionalLight(0xffffff, 1.5);
-        fillLight.position.set(-5, 5, -5);
+        // 4. Rim Light (Cooler, sharp back light for edge definition)
+        const rimLight = new THREE.DirectionalLight(0xddeeff, 1.0);
+        rimLight.position.set(-5, 5, -8);
+        scene.add(rimLight);
+
+        // 5. Front Fill (Subtle warm front light)
+        const fillLight = new THREE.DirectionalLight(0xffeedd, 0.5);
+        fillLight.position.set(-5, 2, 5);
         scene.add(fillLight);
 
-        // 5. Back Light (Rim lighting)
-        const backLight = new THREE.DirectionalLight(0xffffff, 1.0);
-        backLight.position.set(0, 5, -10);
-        scene.add(backLight);
+        // --- SHOWROOM FLOOR ---
+        const floorGeometry = new THREE.PlaneGeometry(100, 100);
+        const floorMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0xe0e0e0, // Match fog/bg
+            roughness: 0.1,  // Glossy reflection
+            metalness: 0.0
+        });
+        const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+        floor.rotation.x = -Math.PI / 2;
+        floor.position.y = -0.8;
+        floor.receiveShadow = true;
+        scene.add(floor);
 
         // Controls
         const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -123,7 +145,20 @@ if (document.getElementById('3d-container')) {
             model = gltf.scene;
             model.scale.set(1.5, 1.5, 1.5);
             model.position.y = -0.8; // Lowered slightly
+            
+            // Enable shadows for the car
+            model.traverse((node) => {
+                if (node.isMesh) {
+                    node.castShadow = true;
+                    node.receiveShadow = true;
+                }
+            });
+
             scene.add(model);
+            
+            // Apply default color (Red)
+            changeColor('red');
+            
             animate();
         }, undefined, function (error) {
             console.error('An error happened loading the model:', error);
@@ -163,8 +198,18 @@ if (document.getElementById('3d-container')) {
         currentOptions.color = colorName.charAt(0).toUpperCase() + colorName.slice(1);
 
         // Update UI (Swatches)
-        document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
-        if(event && event.currentTarget) event.currentTarget.classList.add('active');
+        const swatches = document.querySelectorAll('.color-swatch');
+        swatches.forEach(s => s.classList.remove('active'));
+        
+        if(window.event && window.event.currentTarget && window.event.currentTarget.classList.contains('color-swatch')) {
+            window.event.currentTarget.classList.add('active');
+        } else {
+            // Fallback for programmatic calls: find button by onclick attribute
+            const targetBtn = Array.from(swatches).find(btn => 
+                btn.getAttribute('onclick').includes(`'${colorName}'`)
+            );
+            if (targetBtn) targetBtn.classList.add('active');
+        }
 
         // Apply to 3D Model
         const targetColor = new THREE.Color(colorMap[colorName]);
