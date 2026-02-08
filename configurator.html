@@ -8,9 +8,12 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="theme.js"></script>
+    <script src="car-data.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.142.0/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.142.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.142.0/examples/js/loaders/RGBELoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.142.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
 <body class="bg-black text-white h-screen flex flex-col md:flex-row overflow-hidden">
 
@@ -34,18 +37,115 @@
     <div class="w-full md:w-1/3 h-1/2 md:h-full bg-ferrari-dark border-l border-gray-800 flex flex-col">
         <div class="flex-1 overflow-y-auto p-8 custom-scrollbar">
             
-            <div class="mb-10">
-                <h4 class="font-display text-lg uppercase mb-4 flex justify-between items-center cursor-pointer" onclick="resetZoom()">
-                    Exterior <span class="text-ferrari-red text-xs font-bold tracking-widest">Standard</span>
-                </h4>
-                <div class="flex flex-wrap gap-4">
-                    <button onclick="changeColor('red')" class="w-10 h-10 rounded-full bg-red-600 color-swatch active" title="Rosso Corsa"></button>
-                    <button onclick="changeColor('yellow')" class="w-10 h-10 rounded-full bg-yellow-400 color-swatch" title="Giallo Modena"></button>
-                    <button onclick="changeColor('black')" class="w-10 h-10 rounded-full bg-black border border-gray-700 color-swatch" title="Nero"></button>
-                    <button onclick="changeColor('silver')" class="w-10 h-10 rounded-full bg-gray-300 color-swatch" title="Argento Nurburgring"></button>
-                    <button onclick="changeColor('blue')" class="w-10 h-10 rounded-full bg-blue-800 color-swatch" title="Blu Tour de France"></button>
+            <div class="mb-8">
+                <h4 class="font-display text-sm text-gray-400 uppercase tracking-widest mb-3">Exterior Paint</h4>
+                <div class="flex flex-wrap gap-3">
+                    <button onclick="changeColor('red')" class="w-8 h-8 rounded-full bg-red-700 hover:scale-110 transition ring-2 ring-transparent hover:ring-white focus:ring-white" title="Rosso Corsa"></button>
+                    <button onclick="changeColor('yellow')" class="w-8 h-8 rounded-full bg-yellow-400 hover:scale-110 transition ring-2 ring-transparent hover:ring-white focus:ring-white" title="Giallo Modena"></button>
+                    <button onclick="changeColor('black')" class="w-8 h-8 rounded-full bg-black border border-gray-700 hover:scale-110 transition ring-2 ring-transparent hover:ring-white focus:ring-white" title="Nero Daytona"></button>
+                    <button onclick="changeColor('silver')" class="w-8 h-8 rounded-full bg-gray-400 hover:scale-110 transition ring-2 ring-transparent hover:ring-white focus:ring-white" title="Argento Nurburgring"></button>
+                    <button onclick="changeColor('blue')" class="w-8 h-8 rounded-full bg-blue-900 hover:scale-110 transition ring-2 ring-transparent hover:ring-white focus:ring-white" title="Blu Tour de France"></button>
                 </div>
             </div>
+
+            <div class="mb-8">
+                <h4 class="font-display text-sm text-gray-400 uppercase tracking-widest mb-3">Rims</h4>
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="changeRimColor('silver')" class="px-3 py-2 border border-gray-600 rounded hover:bg-white hover:text-black hover:border-white transition text-xs uppercase font-bold text-gray-300">Silver</button>
+                    <button onclick="changeRimColor('carbon')" class="px-3 py-2 border border-gray-600 rounded hover:bg-white hover:text-black hover:border-white transition text-xs uppercase font-bold text-gray-300">Carbon</button>
+                    <button onclick="changeRimColor('gold')" class="px-3 py-2 border border-gray-600 rounded hover:bg-white hover:text-black hover:border-white transition text-xs uppercase font-bold text-gray-300">Gold</button>
+                    <button onclick="changeRimColor('black')" class="px-3 py-2 border border-gray-600 rounded hover:bg-white hover:text-black hover:border-white transition text-xs uppercase font-bold text-gray-300">Matte Black</button>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <h4 class="font-display text-sm text-gray-400 uppercase tracking-widest mb-3">Brake Calipers</h4>
+                <div class="flex flex-wrap gap-3">
+                    <button onclick="changeCaliperColor('red')" class="w-6 h-6 rounded-full bg-red-600 hover:scale-110 transition ring-1 ring-gray-500 hover:ring-white"></button>
+                    <button onclick="changeCaliperColor('yellow')" class="w-6 h-6 rounded-full bg-yellow-400 hover:scale-110 transition ring-1 ring-gray-500 hover:ring-white"></button>
+                    <button onclick="changeCaliperColor('black')" class="w-6 h-6 rounded-full bg-black hover:scale-110 transition ring-1 ring-gray-500 hover:ring-white"></button>
+                    <button onclick="changeCaliperColor('silver')" class="w-6 h-6 rounded-full bg-gray-300 hover:scale-110 transition ring-1 ring-gray-500 hover:ring-white"></button>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <h4 class="font-display text-sm text-gray-400 uppercase tracking-widest mb-3">Interior</h4>
+                <div class="flex flex-wrap gap-3">
+                    <button onclick="changeInteriorColor('black')" class="w-8 h-8 rounded-full bg-gray-900 border border-gray-600 hover:scale-110 transition ring-2 ring-transparent hover:ring-white" title="Nero"></button>
+                    <button onclick="changeInteriorColor('tan')" class="w-8 h-8 rounded-full bg-yellow-700 hover:scale-110 transition ring-2 ring-transparent hover:ring-white" title="Cuoio"></button>
+                    <button onclick="changeInteriorColor('red')" class="w-8 h-8 rounded-full bg-red-800 hover:scale-110 transition ring-2 ring-transparent hover:ring-white" title="Rosso"></button>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <h4 class="font-display text-sm text-gray-400 uppercase tracking-widest mb-3">Livery Stripes</h4>
+                <div class="flex flex-wrap gap-3">
+                    <button onclick="changeStripeColor('white')" class="w-8 h-8 rounded-full bg-white border border-gray-600 hover:scale-110 transition ring-2 ring-transparent hover:ring-white"></button>
+                    <button onclick="changeStripeColor('black')" class="w-8 h-8 rounded-full bg-black border border-gray-600 hover:scale-110 transition ring-2 ring-transparent hover:ring-white"></button>
+                    <button onclick="changeStripeColor('blue')" class="w-8 h-8 rounded-full bg-blue-700 hover:scale-110 transition ring-2 ring-transparent hover:ring-white"></button>
+                    <button onclick="changeStripeColor('yellow')" class="w-8 h-8 rounded-full bg-yellow-400 hover:scale-110 transition ring-2 ring-transparent hover:ring-white"></button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <div>
+                    <h4 class="font-display text-sm text-gray-400 uppercase tracking-widest mb-3">Carbon</h4>
+                    <div class="flex gap-2">
+                        <button onclick="changeCarbonFinish('gloss')" class="flex-1 py-2 border border-gray-600 rounded hover:bg-white hover:text-black transition text-[10px] uppercase font-bold text-gray-300">Gloss</button>
+                        <button onclick="changeCarbonFinish('matte')" class="flex-1 py-2 border border-gray-600 rounded hover:bg-white hover:text-black transition text-[10px] uppercase font-bold text-gray-300">Matte</button>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-display text-sm text-gray-400 uppercase tracking-widest mb-3">Tint</h4>
+                    <div class="flex gap-2">
+                        <button onclick="changeWindowTint('light')" class="flex-1 py-2 border border-gray-600 rounded hover:bg-white hover:text-black transition text-[10px] uppercase font-bold text-gray-300">Light</button>
+                        <button onclick="changeWindowTint('dark')" class="flex-1 py-2 border border-gray-600 rounded hover:bg-white hover:text-black transition text-[10px] uppercase font-bold text-gray-300">Dark</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <h4 class="font-display text-sm text-gray-400 uppercase tracking-widest mb-3">Exterior Details</h4>
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500 font-bold uppercase">Badges</span>
+                        <div class="flex gap-2">
+                            <button onclick="changeBadgeColor('original')" class="px-2 py-1 border border-gray-600 rounded hover:bg-white hover:text-black transition text-[10px] uppercase font-bold text-gray-300">Original</button>
+                            <button onclick="changeBadgeColor('dark')" class="px-2 py-1 border border-gray-600 rounded hover:bg-white hover:text-black transition text-[10px] uppercase font-bold text-gray-300">Dark</button>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500 font-bold uppercase">Tail Lights</span>
+                        <div class="flex gap-2">
+                            <button onclick="changeTailLights('red')" class="px-2 py-1 border border-gray-600 rounded hover:bg-white hover:text-black transition text-[10px] uppercase font-bold text-gray-300">Red</button>
+                            <button onclick="changeTailLights('smoked')" class="px-2 py-1 border border-gray-600 rounded hover:bg-white hover:text-black transition text-[10px] uppercase font-bold text-gray-300">Smoked</button>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500 font-bold uppercase">Grilles</span>
+                        <div class="flex gap-2">
+                            <button onclick="changeGrilleColor('black')" class="px-2 py-1 border border-gray-600 rounded hover:bg-white hover:text-black transition text-[10px] uppercase font-bold text-gray-300">Black</button>
+                            <button onclick="changeGrilleColor('titanium')" class="px-2 py-1 border border-gray-600 rounded hover:bg-white hover:text-black transition text-[10px] uppercase font-bold text-gray-300">Titanium</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-10">
+                <h4 class="font-display text-sm text-gray-400 uppercase tracking-widest mb-3">Engine Bay</h4>
+                <div class="flex flex-wrap gap-3">
+                    <button onclick="changeEngineColor('red')" class="w-8 h-8 rounded-full bg-red-700 hover:scale-110 transition ring-2 ring-transparent hover:ring-white"></button>
+                    <button onclick="changeEngineColor('black')" class="w-8 h-8 rounded-full bg-black border border-gray-600 hover:scale-110 transition ring-2 ring-transparent hover:ring-white"></button>
+                    <button onclick="changeEngineColor('gold')" class="w-8 h-8 rounded-full bg-yellow-600 hover:scale-110 transition ring-2 ring-transparent hover:ring-white"></button>
+                </div>
+            </div>
+            
+            <button onclick="viewEngine()" class="w-full py-3 border border-ferrari-red text-ferrari-red hover:bg-ferrari-red hover:text-white transition font-display uppercase tracking-widest text-sm font-bold mb-4">
+                <i class="fas fa-eye mr-2"></i> View Engine
+            </button>
+            <button onclick="resetZoom()" class="w-full py-3 border border-gray-600 text-gray-400 hover:border-white hover:text-white transition font-display uppercase tracking-widest text-sm font-bold">
+                <i class="fas fa-undo mr-2"></i> Reset View
+            </button>
 
             <div class="mb-10">
                 <h4 class="font-display text-lg uppercase mb-4">Rims</h4>

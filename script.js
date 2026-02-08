@@ -6,14 +6,35 @@
 
 // --- 1. GLOBAL HELPERS & STATE ---
 const urlParams = new URLSearchParams(window.location.search);
-const currentModel = urlParams.get('model') || 'Ferrari F40';
-const currentPriceBase = parseInt(urlParams.get('price')) || 550000;
+
+// --- DATA INITIALIZATION ---
+// Determine current car from 'id' param (new) or 'model' param (legacy)
+let activeCar = null;
+
+if (typeof getCarById === 'function') {
+    // If car-data.js is loaded
+    const carId = urlParams.get('id') || urlParams.get('model');
+    activeCar = getCarById(carId);
+} else {
+    // Fallback for pages without car-data.js (like checkout, if not added there)
+    // or if car-data.js failed to load.
+    activeCar = {
+        name: urlParams.get('model') || 'Ferrari',
+        price: parseInt(urlParams.get('price')) || 0,
+        modelFile: 'scene.gltf',
+        config: { scale: 1.5, y: -0.8 }
+    };
+}
+
+const currentModel = activeCar.name;
+const currentPriceBase = activeCar.price;
 
 let currentOptions = {
     rims: 0,
     calipers: 0,
     color: 'Red'
 };
+
 
 // --- 2. GLOBAL UI INTERACTIONS ---
 const navbar = document.getElementById('navbar');
@@ -61,7 +82,7 @@ document.querySelectorAll('.animate-fade-in-up').forEach(el => {
 // --- 3. CONFIGURATOR PAGE LOGIC ---
 if (document.getElementById('3d-container')) {
     const container = document.getElementById('3d-container');
-    let scene, camera, renderer, model;
+    let scene, camera, renderer, model, controls;
 
     function init() {
         // Scene
@@ -80,48 +101,53 @@ if (document.getElementById('3d-container')) {
         renderer.shadowMap.enabled = true; // Enable shadows
         renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Soft shadows
         renderer.toneMapping = THREE.ACESFilmicToneMapping; // Better color handling
-        renderer.toneMappingExposure = 1.2; // Increase overall brightness
+        renderer.toneMappingExposure = 1.0; // Adjusted for HDRI
         renderer.outputEncoding = THREE.sRGBEncoding;
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Soft shadows
         container.appendChild(renderer.domElement);
 
-        // --- NATURAL STUDIO LIGHTING ---
+        // --- ENVIRONMENT MAP (HDRI) ---
+        // This is the key to realistic reflections
+        new THREE.RGBELoader()
+            .setPath('https://raw.githubusercontent.com/mrdoob/three.js/r142/examples/textures/equirectangular/')
+            .load('royal_esplanade_1k.hdr', function (texture) {
+                texture.mapping = THREE.EquirectangularReflectionMapping;
+                scene.environment = texture; // Applies reflections to all objects
+                
+                // Optional: Reduce intensity if too bright
+                // scene.environment.intensity = 0.5; // (Requires newer Three.js, handled via exposure here)
+            });
+
+        // --- SUPPLEMENTARY LIGHTING ---
+        // We keep some lights for specific shadows and control, but reduce intensity
+        // as the HDRI provides global illumination.
         
-        // 1. Soft Ambient (Fill)
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+        // 1. Soft Ambient (Fill) - Reduced
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
         scene.add(ambientLight);
 
-        // 2. Hemisphere (Sky/Ground reflection simulation) - Cool Sky, Warm Ground
-        const hemisphereLight = new THREE.HemisphereLight(0xffffff, 0xe0e0e0, 0.5);
-        scene.add(hemisphereLight);
-
-        // 3. Main Key Light (Soft SpotLight simulating a large softbox)
-        const mainLight = new THREE.SpotLight(0xffffff, 1.5);
+        // 2. Main Key Light (Shadow caster)
+        const mainLight = new THREE.SpotLight(0xffffff, 1.2);
         mainLight.position.set(5, 12, 5);
         mainLight.angle = Math.PI / 4;
-        mainLight.penumbra = 0.5; // Soft edges
+        mainLight.penumbra = 0.5;
         mainLight.castShadow = true;
-        mainLight.shadow.mapSize.width = 2048; // High res shadows
+        mainLight.shadow.mapSize.width = 2048;
         mainLight.shadow.mapSize.height = 2048;
         mainLight.shadow.bias = -0.0001;
         scene.add(mainLight);
 
-        // 4. Rim Light (Cooler, sharp back light for edge definition)
-        const rimLight = new THREE.DirectionalLight(0xddeeff, 1.0);
+        // 3. Rim Light (Cooler)
+        const rimLight = new THREE.DirectionalLight(0xddeeff, 0.8);
         rimLight.position.set(-5, 5, -8);
         scene.add(rimLight);
-
-        // 5. Front Fill (Subtle warm front light)
-        const fillLight = new THREE.DirectionalLight(0xffeedd, 0.5);
-        fillLight.position.set(-5, 2, 5);
-        scene.add(fillLight);
 
         // --- SHOWROOM FLOOR ---
         const floorGeometry = new THREE.PlaneGeometry(100, 100);
         const floorMaterial = new THREE.MeshStandardMaterial({ 
-            color: 0xe0e0e0, // Match fog/bg
-            roughness: 0.1,  // Glossy reflection
-            metalness: 0.0
+            color: 0xe0e0e0, 
+            roughness: 0.1, 
+            metalness: 0.0,
+            envMapIntensity: 0.5 // Prevent floor from being a perfect mirror
         });
         const floor = new THREE.Mesh(floorGeometry, floorMaterial);
         floor.rotation.x = -Math.PI / 2;
@@ -130,7 +156,7 @@ if (document.getElementById('3d-container')) {
         scene.add(floor);
 
         // Controls
-        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
         controls.screenSpacePanning = false;
@@ -141,28 +167,76 @@ if (document.getElementById('3d-container')) {
 
         // Model Loader
         const loader = new THREE.GLTFLoader();
-        loader.load('models/scene.gltf', function (gltf) {
-            model = gltf.scene;
-            model.scale.set(1.5, 1.5, 1.5);
-            model.position.y = -0.8; // Lowered slightly
-            
-            // Enable shadows for the car
-            model.traverse((node) => {
-                if (node.isMesh) {
-                    node.castShadow = true;
-                    node.receiveShadow = true;
+
+        // Target File comes from the centralized Active Car object
+        const targetFile = activeCar.modelFile || 'scene.gltf';
+        const targetConfig = activeCar.config || { scale: 1.5, y: -0.8 };
+
+        console.log(`[Configurator] Selected Model: "${currentModel}"`);
+        console.log(`[Configurator] Target File: "${targetFile}"`);
+
+        // Force resource path to ensure textures are found relative to the models directory
+        loader.setResourcePath('models/');
+
+        function loadCarModel(filename) {
+            console.log(`[Configurator] Attempting to load: models/${filename}`);
+            loader.load(`models/${filename}`, function (gltf) {
+                console.log(`[Configurator] Success! Loaded: models/${filename}`);
+                model = gltf.scene;
+                
+                // Apply Configuration from DB
+                model.scale.set(targetConfig.scale, targetConfig.scale, targetConfig.scale);
+                model.position.y = targetConfig.y;
+
+                // Optional: Camera Adjustment per car (if defined in config)
+                if (targetConfig.cameraZ) {
+                     camera.position.z = targetConfig.cameraZ;
+                }
+                
+                // Enable shadows and Fix Materials
+                model.traverse((node) => {
+                    if (node.isMesh) {
+                        node.castShadow = true;
+                        node.receiveShadow = true;
+                        
+                        // Boost environment map intensity for the car paint
+                        if (node.material) {
+                             node.material.envMapIntensity = 1.0;
+
+                             // FIX: Make Glass Transparent to see Engine
+                             if (node.material.name.toLowerCase().includes('glass')) {
+                                 node.material.transparent = true;
+                                 node.material.opacity = 0.25; // Clear glass
+                                 node.material.roughness = 0.05;
+                                 node.material.metalness = 0.9;
+                                 node.material.side = THREE.DoubleSide; 
+                                 node.material.depthWrite = false; // Fix rendering artifacts
+                                 node.material.needsUpdate = true;
+                             }
+                        }
+                    }
+                });
+
+                scene.add(model);
+                
+                // Apply default color (Red)
+                changeColor('red');
+                
+                // Only start animation loop if not already running (though init calls this once)
+                animate();
+
+            }, undefined, function (error) {
+                console.warn(`Failed to load models/${filename}. Falling back to default.`);
+                if (filename !== 'scene.gltf') {
+                    loadCarModel('scene.gltf');
+                } else {
+                    console.error('Critical: Default model failed to load.', error);
+                    document.getElementById('configurator-title').innerText = "Model Not Found";
                 }
             });
+        }
 
-            scene.add(model);
-            
-            // Apply default color (Red)
-            changeColor('red');
-            
-            animate();
-        }, undefined, function (error) {
-            console.error('An error happened loading the model:', error);
-        });
+        loadCarModel(targetFile);
 
         window.addEventListener('resize', onWindowResize, false);
     }
@@ -175,8 +249,53 @@ if (document.getElementById('3d-container')) {
 
     function animate() {
         requestAnimationFrame(animate);
+        if(controls) controls.update(); // Important for damping
         renderer.render(scene, camera);
     }
+
+    // --- CAMERA CONTROLS ---
+
+    window.viewEngine = function() {
+        if (!model || !camera || !controls) return;
+        
+        // Move to Rear-Top View
+        gsap.to(camera.position, {
+            duration: 1.5,
+            x: 0,
+            y: 2.5,
+            z: -4.0, // Behind the car
+            ease: "power2.inOut"
+        });
+
+        gsap.to(controls.target, {
+            duration: 1.5,
+            x: 0,
+            y: 0,
+            z: 0,
+            ease: "power2.inOut"
+        });
+    };
+
+    window.resetZoom = function() {
+        if (!model || !camera || !controls) return;
+        
+        // Reset to Front View
+        gsap.to(camera.position, {
+            duration: 1.5,
+            x: 0,
+            y: 2,
+            z: 5,
+            ease: "power2.inOut"
+        });
+
+        gsap.to(controls.target, {
+            duration: 1.5,
+            x: 0,
+            y: 0,
+            z: 0,
+            ease: "power2.inOut"
+        });
+    };
 
     init();
 
@@ -185,42 +304,251 @@ if (document.getElementById('3d-container')) {
     window.changeColor = function(colorName) {
         if (!model) return;
 
-        // Map button names to Hex colors
+        // Photorealistic PBR Palette
         const colorMap = {
-            'red': 0xd40000,
-            'yellow': 0xfff200,
-            'black': 0x111111,
-            'silver': 0xc0c0c0,
-            'blue': 0x0000ff
+            'red': { hex: 0x900000, metalness: 0.9, roughness: 0.05, name: 'Rosso Corsa' },
+            'yellow': { hex: 0xD4AF37, metalness: 0.8, roughness: 0.1, name: 'Giallo Modena' },
+            'black': { hex: 0x010101, metalness: 0.95, roughness: 0.01, name: 'Nero Daytona' }, 
+            'silver': { hex: 0x888888, metalness: 1.0, roughness: 0.1, name: 'Argento Nurburgring' },
+            'blue': { hex: 0x00032b, metalness: 0.9, roughness: 0.05, name: 'Blu Tour de France' }
         };
 
-        // Update Global State
-        currentOptions.color = colorName.charAt(0).toUpperCase() + colorName.slice(1);
+        const target = colorMap[colorName] || colorMap['red'];
+        currentOptions.color = target.name;
 
-        // Update UI (Swatches)
-        const swatches = document.querySelectorAll('.color-swatch');
-        swatches.forEach(s => s.classList.remove('active'));
+        // UI Update handled by button click directly or here if needed
         
-        if(window.event && window.event.currentTarget && window.event.currentTarget.classList.contains('color-swatch')) {
-            window.event.currentTarget.classList.add('active');
-        } else {
-            // Fallback for programmatic calls: find button by onclick attribute
-            const targetBtn = Array.from(swatches).find(btn => 
-                btn.getAttribute('onclick').includes(`'${colorName}'`)
-            );
-            if (targetBtn) targetBtn.classList.add('active');
-        }
-
-        // Apply to 3D Model
-        const targetColor = new THREE.Color(colorMap[colorName]);
+        const targetColor = new THREE.Color(target.hex);
         
         model.traverse((child) => {
             if (child.isMesh) {
-                // Heuristic: Look for materials likely to be the car body
-                // Often named 'paint', 'body', 'chassis', 'car_paint', etc.
-                const matName = child.material.name.toLowerCase();
-                if (matName.includes('paint') || matName.includes('body') || matName.includes('metal')) {
+                const name = child.material.name.toLowerCase();
+
+                // Exclusions
+                if (name.includes('caliper') || name.includes('rim') || name.includes('wheel') || 
+                    name.includes('carbon') || name.includes('glass') || name.includes('light') || 
+                    name.includes('badge') || name.includes('grille') || name.includes('interior') ||
+                    name.includes('engine') || name.includes('exhaust') || name.includes('paint3') || name.includes('paint5')) {
+                    return;
+                }
+
+                if (name.includes('paint') || name.includes('body') || name.includes('metal_car') || name.includes('chassis')) {
                     child.material.color.set(targetColor);
+                    if (child.material.isMeshStandardMaterial) {
+                        child.material.metalness = target.metalness;
+                        child.material.roughness = target.roughness;
+                        child.material.envMapIntensity = 2.5; 
+                    }
+                }
+            }
+        });
+    };
+
+    window.changeRimColor = function(variant) {
+        if (!model) return;
+        
+        const variants = {
+            'silver': { hex: 0xdddddd, metalness: 0.9, roughness: 0.2 },
+            'carbon': { hex: 0x1a1a1a, metalness: 0.5, roughness: 0.5 }, // Dark semi-matte
+            'gold': { hex: 0xeebb00, metalness: 1.0, roughness: 0.1 },
+            'black': { hex: 0x050505, metalness: 0.1, roughness: 0.6 } // Matte Black
+        };
+        const style = variants[variant] || variants['silver'];
+        const color = new THREE.Color(style.hex);
+
+        model.traverse((child) => {
+            if (child.isMesh) {
+                const name = child.material.name.toLowerCase();
+                if (name.includes('rim') || name.includes('wheel')) {
+                    // Exclude tires usually named 'tire' or 'rubber' if they share 'wheel' keyword, 
+                    // but usually they are separate. Assuming safe for now.
+                    if (!name.includes('tire') && !name.includes('rubber')) {
+                        child.material.color.set(color);
+                        if(child.material.isMeshStandardMaterial) {
+                            child.material.metalness = style.metalness;
+                            child.material.roughness = style.roughness;
+                        }
+                    }
+                }
+            }
+        });
+    };
+
+    window.changeCaliperColor = function(colorName) {
+        if (!model) return;
+        
+        const colors = {
+            'red': 0xcc0000,
+            'yellow': 0xffcc00,
+            'black': 0x111111,
+            'silver': 0xaaaaaa
+        };
+        const hex = colors[colorName] || colors['red'];
+        const color = new THREE.Color(hex);
+
+        model.traverse((child) => {
+            if (child.isMesh) {
+                const name = child.material.name.toLowerCase();
+                if (name.includes('caliper')) {
+                    child.material.color.set(color);
+                }
+            }
+        });
+    };
+
+    window.changeInteriorColor = function(colorName) {
+        if (!model) return;
+        
+        const colors = {
+            'black': 0x111111,
+            'tan': 0x8b5a2b, // Cuoio
+            'red': 0x700000
+        };
+        const hex = colors[colorName] || colors['black'];
+        const color = new THREE.Color(hex);
+
+        model.traverse((child) => {
+            if (child.isMesh) {
+                const name = child.material.name.toLowerCase();
+                if (name.includes('interior')) {
+                    child.material.color.set(color);
+                }
+            }
+        });
+    };
+
+    window.changeStripeColor = function(colorName) {
+        if (!model) return;
+
+        const colors = {
+            'white': 0xffffff,
+            'black': 0x111111,
+            'blue': 0x001144, // NART Blue
+            'yellow': 0xffcc00
+        };
+        const hex = colors[colorName] || colors['white'];
+        const color = new THREE.Color(hex);
+
+        model.traverse((child) => {
+            if (child.isMesh) {
+                const name = child.material.name.toLowerCase();
+                // 488 Pista Livery is usually Paint3 (Central) and Paint5 (Edge)
+                if (name.includes('paint3') || name.includes('paint5')) {
+                    child.material.color.set(color);
+                    child.material.metalness = 0.5;
+                    child.material.roughness = 0.3; // Stickers are less glossy than body
+                }
+            }
+        });
+    };
+
+    window.changeCarbonFinish = function(finish) {
+        if (!model) return;
+
+        model.traverse((child) => {
+            if (child.isMesh) {
+                const name = child.material.name.toLowerCase();
+                if (name.includes('carbon')) {
+                    if (finish === 'gloss') {
+                        child.material.roughness = 0.2;
+                        child.material.metalness = 0.8;
+                        if(child.material.clearcoat !== undefined) child.material.clearcoat = 1.0;
+                    } else { // Matte
+                        child.material.roughness = 0.8;
+                        child.material.metalness = 0.3;
+                        if(child.material.clearcoat !== undefined) child.material.clearcoat = 0.0;
+                    }
+                    child.material.needsUpdate = true;
+                }
+            }
+        });
+    };
+
+    window.changeWindowTint = function(level) {
+        if (!model) return;
+
+        model.traverse((child) => {
+            if (child.isMesh) {
+                const name = child.material.name.toLowerCase();
+                if (name.includes('glass') || name.includes('window')) {
+                    // Skip red/amber tail lights
+                    if(name.includes('red') || name.includes('amber')) return; 
+
+                    if (level === 'dark') {
+                        child.material.color.set(0x000000);
+                        child.material.opacity = 0.85;
+                        child.material.roughness = 0.0;
+                        child.material.metalness = 0.9;
+                    } else { // Light
+                        child.material.color.set(0xffffff);
+                        child.material.opacity = 0.2;
+                        child.material.roughness = 0.0;
+                        child.material.metalness = 0.1;
+                    }
+                    child.material.transparent = true;
+                    child.material.needsUpdate = true;
+                }
+            }
+        });
+    };
+
+    window.changeBadgeColor = function(type) {
+        if (!model) return;
+
+        const color = (type === 'dark') ? new THREE.Color(0x555555) : new THREE.Color(0xffffff);
+
+        model.traverse((child) => {
+            if (child.isMesh) {
+                const name = child.material.name.toLowerCase();
+                if (name.includes('badge')) {
+                    child.material.color.set(color);
+                }
+            }
+        });
+    };
+
+    window.changeTailLights = function(type) {
+        if (!model) return;
+
+        model.traverse((child) => {
+            if (child.isMesh) {
+                const name = child.material.name.toLowerCase();
+                
+                // Target Tail Lights and Side Markers
+                if (name.includes('glassred') || name.includes('glassamber')) {
+                    if (type === 'smoked') {
+                        // Smoked Look
+                        child.material.color.set(0x440000); // Dark Red
+                        child.material.opacity = 0.5; // More opaque
+                        child.material.roughness = 0.1;
+                    } else {
+                        // Original
+                        const originalColor = name.includes('red') ? 0xcc0000 : 0xffaa00;
+                        child.material.color.set(originalColor);
+                        child.material.opacity = 0.25; // Transparent
+                        child.material.roughness = 0.0;
+                    }
+                }
+            }
+        });
+    };
+
+    window.changeGrilleColor = function(type) {
+        if (!model) return;
+
+        model.traverse((child) => {
+            if (child.isMesh) {
+                const name = child.material.name.toLowerCase();
+                if (name.includes('grille')) {
+                    if (type === 'titanium') {
+                        child.material.color.set(0xaaaaaa);
+                        child.material.metalness = 0.9;
+                        child.material.roughness = 0.4;
+                    } else { // Black
+                        child.material.color.set(0x111111);
+                        child.material.metalness = 0.1; // Matte
+                        child.material.roughness = 0.9;
+                    }
                 }
             }
         });
