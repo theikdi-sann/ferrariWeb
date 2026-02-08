@@ -2,36 +2,20 @@
  * ------------------------------------------------------------------
  * FERRARI OFFICIAL - MASTER SCRIPT
  * ------------------------------------------------------------------
- * Handles:
- * 1. Global UI (Navbar, Loader, Scroll Animations)
- * 2. Data Persistence (URL Parameters)
- * 3. Configurator Logic (Canvas Manipulation, Pricing)
- * 4. Checkout Logic (Form Handling)
- * ------------------------------------------------------------------
  */
 
 // --- 1. GLOBAL HELPERS & STATE ---
-
-// Get URL Parameters (Used to pass data between pages)
 const urlParams = new URLSearchParams(window.location.search);
-const currentModel = urlParams.get('model') || 'Ferrari Model';
+const currentModel = urlParams.get('model') || 'Ferrari F40';
 const currentPriceBase = parseInt(urlParams.get('price')) || 550000;
-const currentImgUrl = urlParams.get('img');
 
-// Global Config State
 let currentOptions = {
     rims: 0,
     calipers: 0,
     color: 'Red'
 };
 
-/**
- * ------------------------------------------------------------------
- * 2. GLOBAL UI INTERACTIONS
- * ------------------------------------------------------------------
- */
-
-// Navbar Scroll Effect
+// --- 2. GLOBAL UI INTERACTIONS ---
 const navbar = document.getElementById('navbar');
 if (navbar) {
     window.addEventListener('scroll', function() {
@@ -45,7 +29,6 @@ if (navbar) {
     });
 }
 
-// Loading Screen Fade Out
 window.addEventListener('load', function() {
     const loader = document.getElementById('loader');
     if (loader) {
@@ -58,13 +41,7 @@ window.addEventListener('load', function() {
     }
 });
 
-// Scroll Animations (Fade In Up)
-const observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.1
-};
-
+const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
 const observer = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -76,146 +53,136 @@ const observer = new IntersectionObserver((entries, observer) => {
 }, observerOptions);
 
 document.querySelectorAll('.animate-fade-in-up').forEach(el => {
-    el.style.opacity = '0'; // Ensure hidden initially
+    el.style.opacity = '0'; 
     observer.observe(el);
 });
 
 
-/**
- * ------------------------------------------------------------------
- * 3. CONFIGURATOR PAGE LOGIC
- * Only runs if 'car-canvas' exists on the page
- * ------------------------------------------------------------------
- */
-if (document.getElementById('car-canvas')) {
-    
-    // --- SETUP ---
-    const canvas = document.getElementById('car-canvas');
-    const ctx = canvas.getContext('2d', { willReadFrequently: true });
-    const sourceImg = document.getElementById('source-image');
-    let originalImageData = null;
-    let fallbackMode = false;
+// --- 3. CONFIGURATOR PAGE LOGIC ---
+if (document.getElementById('3d-container')) {
+    const container = document.getElementById('3d-container');
+    let scene, camera, renderer, model;
 
-    // Set UI Initial State
-    document.getElementById('configurator-title').innerText = currentModel;
-    document.getElementById('total-price').innerText = '$' + currentPriceBase.toLocaleString();
+    function init() {
+        // Scene
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x111111); // Dark gray background
 
-    // Check if Overlays are supported (Only for the demo 296 GTB image)
-    const areOverlaysSupported = (currentModel === '296 GTB');
-    if (!areOverlaysSupported) {
-        // Hide overlay divs if not supported
-        document.querySelectorAll('.wheel-overlay').forEach(el => el.style.display = 'none');
+        // Camera
+        camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+        camera.position.set(0, 2, 5); // Adjusted camera position
+
+        // Renderer
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); // Alpha for transparent bg if needed
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.toneMapping = THREE.ACESFilmicToneMapping; // Better color handling
+        renderer.toneMappingExposure = 1.2; // Increase overall brightness
+        renderer.outputEncoding = THREE.sRGBEncoding;
+        container.appendChild(renderer.domElement);
+
+        // --- LIGHTING SETUP (IMPROVED) ---
+        
+        // 1. Ambient Light (Base illumination)
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6); // Increased intensity
+        scene.add(ambientLight);
+
+        // 2. Hemisphere Light (Sky/Ground simulation)
+        const hemisphereLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1.5); // Increased intensity
+        hemisphereLight.position.set(0, 20, 0);
+        scene.add(hemisphereLight);
+
+        // 3. Directional Light (Key Light - Sun)
+        const dirLight = new THREE.DirectionalLight(0xffffff, 3.0); // Strong key light
+        dirLight.position.set(5, 10, 7.5);
+        dirLight.castShadow = true;
+        scene.add(dirLight);
+
+        // 4. Fill Light (Opposite side)
+        const fillLight = new THREE.DirectionalLight(0xffffff, 1.5);
+        fillLight.position.set(-5, 5, -5);
+        scene.add(fillLight);
+
+        // 5. Back Light (Rim lighting)
+        const backLight = new THREE.DirectionalLight(0xffffff, 1.0);
+        backLight.position.set(0, 5, -10);
+        scene.add(backLight);
+
+        // Controls
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.screenSpacePanning = false;
+        controls.minDistance = 3;
+        controls.maxDistance = 10;
+        // Limit vertical angle to prevent going under the floor
+        controls.maxPolarAngle = Math.PI / 2 - 0.05; 
+
+        // Model Loader
+        const loader = new THREE.GLTFLoader();
+        loader.load('models/scene.gltf', function (gltf) {
+            model = gltf.scene;
+            model.scale.set(1.5, 1.5, 1.5);
+            model.position.y = -0.8; // Lowered slightly
+            scene.add(model);
+            animate();
+        }, undefined, function (error) {
+            console.error('An error happened loading the model:', error);
+        });
+
+        window.addEventListener('resize', onWindowResize, false);
     }
 
-    // Load Image
-    if (currentImgUrl) {
-        sourceImg.src = currentImgUrl;
-    } else {
-        // Default fallback image
-        sourceImg.src = "https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=2940&auto=format&fit=crop";
+    function onWindowResize() {
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
     }
 
-    // Initialize Canvas on Image Load
-    sourceImg.onload = function() {
-        canvas.width = sourceImg.naturalWidth;
-        canvas.height = sourceImg.naturalHeight;
-        
-        ctx.drawImage(sourceImg, 0, 0);
-        
-        try {
-            // Save original pixels for restoration
-            originalImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        } catch (e) {
-            console.warn("CORS Protected Image: Switching to CSS Filter Mode");
-            fallbackMode = true; 
-        }
-    };
+    function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+    }
 
-    // --- INTERACTION FUNCTIONS ---
+    init();
 
-    // 1. Color Change Logic
-    window.changeColor = function(color) {
-        // UI Update (Swatches)
-        document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
-        event.currentTarget.classList.add('active');
-        
-        // Update State
-        const colorMap = { 
-            'red': 'Rosso Corsa', 
-            'yellow': 'Giallo Modena', 
-            'black': 'Nero', 
-            'silver': 'Argento Nurburgring', 
-            'blue': 'Blu Tour de France' 
+    // --- INTERACTION LOGIC ---
+
+    window.changeColor = function(colorName) {
+        if (!model) return;
+
+        // Map button names to Hex colors
+        const colorMap = {
+            'red': 0xd40000,
+            'yellow': 0xfff200,
+            'black': 0x111111,
+            'silver': 0xc0c0c0,
+            'blue': 0x0000ff
         };
-        currentOptions.color = colorMap[color];
 
-        // Reset Zoom on color change
-        resetZoom();
+        // Update Global State
+        currentOptions.color = colorName.charAt(0).toUpperCase() + colorName.slice(1);
 
-        // Mode A: Fallback (CSS Filters)
-        if (fallbackMode || !originalImageData) {
-            canvas.className = 'absolute inset-0 z-10'; // Reset classes
-            if (color !== 'red') {
-                canvas.classList.add(`filter-fallback-${color}`);
-            }
-            return;
-        }
+        // Update UI (Swatches)
+        document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+        if(event && event.currentTarget) event.currentTarget.classList.add('active');
 
-        // Mode B: Pixel Manipulation (Canvas)
-        // Restore original red car first
-        ctx.putImageData(originalImageData, 0, 0); 
+        // Apply to 3D Model
+        const targetColor = new THREE.Color(colorMap[colorName]);
         
-        if (color === 'red') return; // Default is red, we are done
-
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const data = imageData.data;
-
-        // Loop through every pixel
-        for (let i = 0; i < data.length; i += 4) {
-            const r = data[i];
-            const g = data[i + 1];
-            const b = data[i + 2];
-
-            // ALGORITHM: Is this pixel Ferrari Red?
-            // Red must be dominant and saturated
-            if ((r > g + 40) && (r > b + 40) && (r > 60)) {
-                
-                // Convert to HSL to preserve shading/lighting
-                const [h, s, l] = rgbToHsl(r, g, b);
-                let newR, newG, newB;
-
-                if (color === 'yellow') {
-                    // Hue ~55deg, Boost lightness slightly
-                    const [nR, nG, nB] = hslToRgb(55/360, s, Math.min(l * 1.5, 0.9));
-                    newR = nR; newG = nG; newB = nB;
-                } 
-                else if (color === 'black') {
-                    // Desaturate completely, Darken heavily
-                    const [nR, nG, nB] = hslToRgb(h, 0, l * 0.2);
-                    newR = nR; newG = nG; newB = nB;
+        model.traverse((child) => {
+            if (child.isMesh) {
+                // Heuristic: Look for materials likely to be the car body
+                // Often named 'paint', 'body', 'chassis', 'car_paint', etc.
+                const matName = child.material.name.toLowerCase();
+                if (matName.includes('paint') || matName.includes('body') || matName.includes('metal')) {
+                    child.material.color.set(targetColor);
                 }
-                else if (color === 'silver') {
-                    // Desaturate, Brighten
-                    const [nR, nG, nB] = hslToRgb(h, 0, Math.min(l * 2.5, 0.9));
-                    newR = nR; newG = nG; newB = nB;
-                }
-                else if (color === 'blue') {
-                    // Hue ~220deg
-                    const [nR, nG, nB] = hslToRgb(220/360, s, l * 0.8);
-                    newR = nR; newG = nG; newB = nB;
-                }
-
-                data[i] = newR;
-                data[i + 1] = newG;
-                data[i + 2] = newB;
             }
-        }
-        ctx.putImageData(imageData, 0, 0);
+        });
     };
 
-    // 2. Option Selection Logic (Rims/Calipers)
     window.selectOption = function(btn, category, price, variant) {
-        // UI Reset (Siblings)
+        // UI Update
         const parent = btn.parentNode;
         parent.querySelectorAll('.option-btn').forEach(b => {
             b.classList.remove('active', 'border-white');
@@ -224,55 +191,45 @@ if (document.getElementById('car-canvas')) {
             b.querySelector('span:first-child').classList.add('text-gray-300');
         });
         
-        // Activate Clicked Button
         btn.classList.add('active', 'border-white');
         btn.classList.remove('border-gray-800');
         btn.querySelector('span:first-child').classList.add('text-white');
 
-        // Update Price State
+        // State Update
         currentOptions[category] = price;
         updatePriceDisplay();
+        
+        if (!model) return;
 
-        // Zoom Effect
-        if (areOverlaysSupported) {
-            document.getElementById('car-preview-container').classList.add('zoom-wheel');
-        }
-
-        // Handle Overlays (Visual Changes)
-        if (areOverlaysSupported) {
-            if (category === 'rims') {
-                 const opacity = (variant === 'carbon') ? '0.6' : '0';
-                 document.getElementById('rim-overlay-rear').style.opacity = opacity;
-                 document.getElementById('rim-overlay-front').style.opacity = opacity;
+        // Logic to swap materials/meshes based on category
+        // Note: This relies on specific mesh naming in the GLTF file
+        model.traverse((child) => {
+            if (child.isMesh) {
+                if (category === 'rims' && child.material.name.includes('rim')) {
+                    if (variant === 'carbon') {
+                        child.material.color.set(0x111111); // Darken
+                        child.material.roughness = 0.2;
+                    } else {
+                        child.material.color.set(0xaaaaaa); // Standard Silver
+                        child.material.roughness = 0.4;
+                    }
+                }
+                if (category === 'calipers' && child.material.name.includes('caliper')) {
+                    if (variant === 'yellow') child.material.color.set(0xffd700);
+                    else if (variant === 'red') child.material.color.set(0xd40000);
+                    else child.material.color.set(0x888888); // Standard Grey
+                }
             }
-            if (category === 'calipers') {
-                const opacity = (variant === 'silver') ? '0' : '0.9'; // Silver is default/transparent
-                const color = (variant === 'yellow') ? '#facc15' : '#dc2626'; 
-                
-                const rearCal = document.getElementById('caliper-overlay-rear');
-                const frontCal = document.getElementById('caliper-overlay-front');
-                
-                rearCal.style.opacity = opacity;
-                rearCal.style.backgroundColor = color;
-                frontCal.style.opacity = opacity;
-                frontCal.style.backgroundColor = color;
-            }
-        }
+        });
     };
 
-    // 3. Helper Functions
     function updatePriceDisplay() {
         const total = currentPriceBase + currentOptions.rims + currentOptions.calipers;
         document.getElementById('total-price').innerText = '$' + total.toLocaleString();
     }
 
-    window.resetZoom = function() {
-        document.getElementById('car-preview-container').classList.remove('zoom-wheel');
-    }
-
     window.proceedToCheckout = function() {
         const total = currentPriceBase + currentOptions.rims + currentOptions.calipers;
-        // Build URL parameters for the next page
         const params = new URLSearchParams({
             model: currentModel,
             color: currentOptions.color,
@@ -280,86 +237,39 @@ if (document.getElementById('car-canvas')) {
         });
         window.location.href = `checkout.html?${params.toString()}`;
     }
+
+    // Set Initial Text
+    document.getElementById('configurator-title').innerText = currentModel;
+    document.getElementById('total-price').innerText = '$' + currentPriceBase.toLocaleString();
 }
 
-/**
- * ------------------------------------------------------------------
- * 4. CHECKOUT PAGE LOGIC
- * Only runs if 'checkout-form' exists
- * ------------------------------------------------------------------
- */
+
+// --- 4. CHECKOUT PAGE LOGIC ---
 if (document.getElementById('checkout-form')) {
-    // Get Data from URL
     const total = urlParams.get('total') || '0';
     const color = urlParams.get('color') || 'Standard';
     const model = urlParams.get('model') || 'Ferrari';
 
-    // Display Summary
+    // Set initial header summary
     document.getElementById('checkout-summary').innerText = 
         `${model} • ${color} • $${parseInt(total).toLocaleString()}`;
 
-    // Handle Submit
     window.handleCheckout = function(e) {
         e.preventDefault();
         
-        // Fake Loading
         const btn = document.querySelector('button[type="submit"]');
-        const originalText = btn.innerText;
-        btn.innerText = "Processing...";
+        btn.innerText = "Processing Payment...";
         btn.disabled = true;
 
         setTimeout(() => {
+            document.getElementById('checkout-header').style.display = 'none';
             document.getElementById('checkout-form').style.display = 'none';
             document.getElementById('success-message').classList.remove('hidden');
+
+            // Populate Receipt
+            document.getElementById('receipt-model').innerText = model;
+            document.getElementById('receipt-color').innerText = color;
+            document.getElementById('receipt-total').innerText = '$' + parseInt(total).toLocaleString();
         }, 1500);
     }
-}
-
-
-/**
- * ------------------------------------------------------------------
- * 5. COLOR CONVERSION UTILITIES (Math Helpers)
- * ------------------------------------------------------------------
- */
-
-function rgbToHsl(r, g, b) {
-    r /= 255, g /= 255, b /= 255;
-    const max = Math.max(r, g, b), min = Math.min(r, g, b);
-    let h, s, l = (max + min) / 2;
-
-    if (max == min) {
-        h = s = 0; // achromatic
-    } else {
-        const d = max - min;
-        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-        switch (max) {
-            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-            case g: h = (b - r) / d + 2; break;
-            case b: h = (r - g) / d + 4; break;
-        }
-        h /= 6;
-    }
-    return [h, s, l];
-}
-
-function hslToRgb(h, s, l) {
-    let r, g, b;
-    if (s == 0) {
-        r = g = b = l; // achromatic
-    } else {
-        const hue2rgb = (p, q, t) => {
-            if (t < 0) t += 1;
-            if (t > 1) t -= 1;
-            if (t < 1/6) return p + (q - p) * 6 * t;
-            if (t < 1/2) return q;
-            if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
-            return p;
-        };
-        const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-        const p = 2 * l - q;
-        r = hue2rgb(p, q, h + 1/3);
-        g = hue2rgb(p, q, h);
-        b = hue2rgb(p, q, h - 1/3);
-    }
-    return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
 }

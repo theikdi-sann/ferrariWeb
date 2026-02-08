@@ -3,58 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ferrari | The Range</title>
+    <title>Ferrari | Official Home</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="theme.js"></script>
 </head>
 <body class="bg-ferrari-black text-white font-sans antialiased">
 
-    <nav class="w-full bg-black py-6 border-b border-gray-900">
+    <div id="loader">
+        <i class="fa-solid fa-horse text-ferrari-red prancing-horse-loader"></i>
+    </div>
+
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 bg-transparent py-6 border-b border-transparent hover:bg-black/90">
         <div class="container mx-auto px-6 flex justify-between items-center">
-            <a href="index.html" class="font-display font-bold tracking-widest text-lg">FERRARI</a>
+            
+            <div class="hidden lg:flex space-x-8 text-xs font-bold tracking-widest uppercase items-center">
+                
+                <div class="relative group">
+                    <button class="nav-link hover:text-gray-300 transition focus:outline-none flex items-center">
+                        Models <i class="fas fa-chevron-down ml-1 text-[10px] text-ferrari-red"></i>
+                    </button>
+                    <div class="absolute left-0 mt-2 w-48 bg-ferrari-dark border border-gray-800 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-2">
+                        <a href="configurator.html?model=SF90 XX Stradale&price=850000&img=https://images.unsplash.com/photo-1592198084033-aade902d1aae?q=80&w=2940" class="block px-6 py-3 hover:bg-ferrari-red hover:text-white transition border-b border-gray-800">SF90 XX</a>
+                        <a href="configurator.html?model=296 GTB&price=320000&img=https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=2940" class="block px-6 py-3 hover:bg-ferrari-red hover:text-white transition border-b border-gray-800">296 GTB</a>
+                        <a href="configurator.html?model=LaFerrari&price=4000000&img=https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=2940" class="block px-6 py-3 hover:bg-ferrari-red hover:text-white transition border-b border-gray-800">LaFerrari</a>
+                        <a href="models.html" class="block px-6 py-3 text-gray-400 hover:text-white text-[10px] uppercase tracking-wider">View All Models</a>
+                    </div>
+                </div>
+
+                <a href="#" class="nav-link hover:text-gray-300 transition">Racing</a>
+                <a href="#" class="nav-link hover:text-gray-300 transition">Collections</a>
+            </div>
+
+            <div class="flex-shrink-0 mx-auto lg:mx-0">
+                <a href="index.html" class="flex flex-col items-center group">
+                    <div class="w-8 h-10 bg-ferrari-yellow rounded-t-sm flex items-center justify-center relative shadow-lg group-hover:scale-110 transition duration-300">
+                         <i class="fa-solid fa-horse text-black text-xl mb-1"></i>
+                         <div class="absolute top-0 w-full h-[2px] bg-green-600"></div>
+                         <div class="absolute top-[2px] w-full h-[2px] bg-white"></div>
+                         <div class="absolute top-[4px] w-full h-[2px] bg-red-600"></div>
+                    </div>
+                    <span class="mt-1 font-display font-bold tracking-widest text-lg">FERRARI</span>
+                </a>
+            </div>
+
+            <div class="hidden lg:flex space-x-8 text-xs font-bold tracking-widest uppercase">
+                <a href="#" class="nav-link hover:text-gray-300 transition">Experiences</a>
+                <a href="#" class="nav-link hover:text-gray-300 transition">Store</a>
+            </div>
         </div>
     </nav>
 
-    <section class="py-20">
-        <div class="container mx-auto px-6 mb-12">
-            <h3 class="text-ferrari-red font-bold tracking-widest uppercase text-sm mb-2">The Range</h3>
-            <h2 class="font-display text-4xl md:text-5xl font-medium uppercase text-white">Select Your Model</h2>
+    <header class="relative h-screen w-full overflow-hidden hero-bg flex items-end justify-start pb-24">
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent"></div>
+        <div class="relative z-10 container mx-auto px-6">
+            <h2 class="text-ferrari-red font-bold tracking-[0.3em] uppercase text-sm mb-4 animate-fade-in-up" style="animation-delay: 0.2s;">New Release</h2>
+            <h1 class="font-display font-medium text-6xl md:text-8xl lg:text-9xl uppercase leading-none mb-6 animate-fade-in-up" style="animation-delay: 0.4s;">
+                SF90 XX <br> <span class="text-stroke text-transparent bg-clip-text bg-white">Stradale</span>
+            </h1>
+            <p class="text-gray-300 max-w-lg text-lg mb-8 font-light animate-fade-in-up" style="animation-delay: 0.6s;">
+                The first road-legal XX. A milestone in Ferrari history, delivering extreme performance for the road.
+            </p>
+            <div class="flex space-x-4 animate-fade-in-up" style="animation-delay: 0.8s;">
+                <a href="models.html" class="bg-ferrari-red text-white px-8 py-3 text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-ferrari-red transition duration-300 inline-block">
+                    Discover Range
+                </a>
+                <a href="configurator.html?model=SF90 XX Stradale&price=850000&img=https://images.unsplash.com/photo-1592198084033-aade902d1aae?q=80&w=2940&auto=format&fit=crop" class="border border-white text-white px-8 py-3 text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-black transition duration-300 inline-block">
+                    Configure
+                </a>
+            </div>
         </div>
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <i class="fas fa-chevron-down text-white text-xl opacity-50"></i>
+        </div>
+    </header>
 
-        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            
-            <a href="configurator.html?model=Enzo Ferrari&price=3500000&img=https://images.unsplash.com/photo-1592198084033-aade902d1aae?q=80&w=2940" class="group relative h-[400px] bg-ferrari-dark overflow-hidden block">
-                <div class="absolute inset-0 card-zoom">
-                    <img src="https://images.unsplash.com/photo-1592198084033-aade902d1aae?q=80&w=2940&auto=format&fit=crop" class="w-full h-full object-cover opacity-80 group-hover:opacity-100">
-                </div>
-                <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black to-transparent">
-                    <h3 class="font-display text-3xl uppercase mb-2">Enzo Ferrari</h3>
-                    <span class="text-xs text-ferrari-red uppercase tracking-widest border-b border-ferrari-red pb-1">Customize</span>
-                </div>
-            </a>
+    <section class="py-20 bg-ferrari-black">
+        <div class="container mx-auto px-6 mb-12 flex justify-between items-end">
+            <div>
+                <h3 class="text-ferrari-red font-bold tracking-widest uppercase text-sm mb-2">Discover</h3>
+                <h2 class="font-display text-4xl md:text-5xl font-medium uppercase text-white">Featured Models</h2>
+            </div>
+            <a href="models.html" class="hidden md:inline-block text-xs font-bold uppercase tracking-widest border-b border-gray-600 pb-1 hover:text-ferrari-red hover:border-ferrari-red transition">View All Models</a>
+        </div>
+        
+        <div class="overflow-x-auto pb-8 hide-scrollbar">
+            <div class="flex space-x-6 px-6" style="width: max-content;">
+                
+                <a href="configurator.html?model=Enzo Ferrari&price=3500000&img=https://images.unsplash.com/photo-1592198084033-aade902d1aae?q=80&w=2940" class="group relative w-[85vw] md:w-[600px] h-[400px] bg-ferrari-dark cursor-pointer overflow-hidden block">
+                    <div class="absolute inset-0 card-zoom">
+                        <img src="https://images.unsplash.com/photo-1592198084033-aade902d1aae?q=80&w=2940&auto=format&fit=crop" class="w-full h-full object-cover opacity-80 group-hover:opacity-100">
+                    </div>
+                    <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black to-transparent">
+                        <h3 class="font-display text-3xl uppercase mb-2 transform translate-y-4 group-hover:translate-y-0 transition duration-500">Enzo Ferrari</h3>
+                        <p class="text-xs text-gray-400 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition duration-500 delay-100">The Legend Lives On</p>
+                    </div>
+                </a>
 
-            <a href="configurator.html?model=296 GTB&price=320000&img=https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=2940" class="group relative h-[400px] bg-ferrari-dark overflow-hidden block">
-                <div class="absolute inset-0 card-zoom">
-                    <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=2940&auto=format&fit=crop" class="w-full h-full object-cover opacity-80 group-hover:opacity-100">
-                </div>
-                <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black to-transparent">
-                    <h3 class="font-display text-3xl uppercase mb-2">296 GTB</h3>
-                    <span class="text-xs text-ferrari-red uppercase tracking-widest border-b border-ferrari-red pb-1">Customize</span>
-                </div>
-            </a>
+                <a href="configurator.html?model=296 GTB&price=320000&img=https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=2940" class="group relative w-[85vw] md:w-[600px] h-[400px] bg-ferrari-dark cursor-pointer overflow-hidden block">
+                    <div class="absolute inset-0 card-zoom">
+                        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=2940&auto=format&fit=crop" class="w-full h-full object-cover opacity-80 group-hover:opacity-100">
+                    </div>
+                    <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black to-transparent">
+                        <h3 class="font-display text-3xl uppercase mb-2 transform translate-y-4 group-hover:translate-y-0 transition duration-500">296 GTB</h3>
+                        <p class="text-xs text-gray-400 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition duration-500 delay-100">Defining Fun to Drive</p>
+                    </div>
+                </a>
 
-            <a href="configurator.html?model=LaFerrari&price=4000000&img=https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=2940" class="group relative h-[400px] bg-ferrari-dark overflow-hidden block">
-                <div class="absolute inset-0 card-zoom">
-                    <img src="https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=2940&auto=format&fit=crop" class="w-full h-full object-cover opacity-80 group-hover:opacity-100">
-                </div>
-                <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black to-transparent">
-                    <h3 class="font-display text-3xl uppercase mb-2">LaFerrari</h3>
-                    <span class="text-xs text-ferrari-red uppercase tracking-widest border-b border-ferrari-red pb-1">Customize</span>
-                </div>
-            </a>
+                <a href="configurator.html?model=LaFerrari&price=4000000&img=https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=2940" class="group relative w-[85vw] md:w-[600px] h-[400px] bg-ferrari-dark cursor-pointer overflow-hidden block">
+                    <div class="absolute inset-0 card-zoom">
+                        <img src="https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=2940&auto=format&fit=crop" class="w-full h-full object-cover opacity-80 group-hover:opacity-100">
+                    </div>
+                    <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black to-transparent">
+                        <h3 class="font-display text-3xl uppercase mb-2 transform translate-y-4 group-hover:translate-y-0 transition duration-500">LaFerrari</h3>
+                        <p class="text-xs text-gray-400 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition duration-500 delay-100">The Definitive Hypercar</p>
+                    </div>
+                </a>
+
+            </div>
         </div>
     </section>
+
+    <footer class="bg-ferrari-dark text-white border-t border-gray-900">
+        <div class="container mx-auto px-6 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div class="flex flex-col items-start">
+                    <div class="flex items-center mb-6">
+                        <i class="fa-solid fa-horse text-3xl mr-2 text-white"></i>
+                        <span class="font-display font-bold text-2xl tracking-widest">FERRARI</span>
+                    </div>
+                    <p class="text-gray-500 text-sm mb-6">
+                        Automobili Ferrari S.p.A. <br>
+                        Via Abetone Inferiore n. 4, <br>
+                        I-41053 Maranello (MO)
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-6">Racing</h4>
+                    <ul class="space-y-3 text-sm font-medium">
+                        <li><a href="#" class="hover:text-ferrari-red transition">Scuderia Ferrari</a></li>
+                        <li><a href="#" class="hover:text-ferrari-red transition">Hypercar</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-6">Sports Cars</h4>
+                    <ul class="space-y-3 text-sm font-medium">
+                        <li><a href="models.html" class="hover:text-ferrari-red transition">The Range</a></li>
+                        <li><a href="configurator.html" class="hover:text-ferrari-red transition">Configurator</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-6">Newsletter</h4>
+                    <form class="flex flex-col space-y-3">
+                        <input type="email" placeholder="Email Address" class="bg-gray-900 border border-gray-800 text-white px-4 py-3 focus:outline-none focus:border-ferrari-red text-sm">
+                        <button class="bg-ferrari-red text-white py-3 text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-black transition">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="border-t border-gray-900 mt-16 pt-8 flex justify-between text-xs text-gray-600">
+                <div>&copy; 2024 Ferrari S.p.A.</div>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-white">Legal</a>
+                    <a href="#" class="hover:text-white">Privacy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js" defer></script>
 </body>
 </html>

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ferrari | Request Quote</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="theme.js"></script>
@@ -12,7 +13,8 @@
 <body class="bg-ferrari-black text-white font-sans antialiased flex items-center justify-center min-h-screen p-6">
 
     <div class="bg-ferrari-dark border border-gray-800 w-full max-w-2xl p-8 relative shadow-2xl">
-        <div class="text-center mb-8">
+        
+        <div class="text-center mb-8" id="checkout-header">
             <h2 class="font-display text-3xl uppercase text-white">Finalize Request</h2>
             <div class="w-12 h-1 bg-ferrari-red mx-auto mt-4"></div>
             <p id="checkout-summary" class="mt-4 text-gray-400 text-sm tracking-widest uppercase">
@@ -23,28 +25,63 @@
             <div class="grid grid-cols-2 gap-4">
                 <div class="space-y-2">
                     <label class="text-xs font-bold uppercase tracking-widest text-gray-400">First Name</label>
-                    <input type="text" required class="w-full bg-black border border-gray-800 text-white px-4 py-3 text-sm focus:border-ferrari-red outline-none">
+                    <input type="text" required class="w-full bg-black border border-gray-800 text-white px-4 py-3 text-sm focus:border-ferrari-red outline-none focus:ring-0">
                 </div>
                 <div class="space-y-2">
                     <label class="text-xs font-bold uppercase tracking-widest text-gray-400">Last Name</label>
-                    <input type="text" required class="w-full bg-black border border-gray-800 text-white px-4 py-3 text-sm focus:border-ferrari-red outline-none">
+                    <input type="text" required class="w-full bg-black border border-gray-800 text-white px-4 py-3 text-sm focus:border-ferrari-red outline-none focus:ring-0">
                 </div>
             </div>
             <div class="space-y-2">
                 <label class="text-xs font-bold uppercase tracking-widest text-gray-400">Email Address</label>
-                <input type="email" required class="w-full bg-black border border-gray-800 text-white px-4 py-3 text-sm focus:border-ferrari-red outline-none">
+                <input type="email" required class="w-full bg-black border border-gray-800 text-white px-4 py-3 text-sm focus:border-ferrari-red outline-none focus:ring-0">
+            </div>
+            <div class="space-y-2">
+                 <label class="text-xs font-bold uppercase tracking-widest text-gray-400">Payment Details (Demo)</label>
+                 <div class="relative">
+                    <input type="text" placeholder="0000 0000 0000 0000" class="w-full bg-black border border-gray-800 text-white px-4 py-3 text-sm focus:border-ferrari-red outline-none focus:ring-0">
+                    <i class="fab fa-cc-visa absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                 </div>
             </div>
 
             <button type="submit" class="w-full bg-ferrari-red text-white py-4 text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-black transition duration-300 mt-4">
-                Submit Request
+                Confirm Payment & Request
             </button>
         </form>
 
-        <div id="success-message" class="hidden text-center mt-6 animate-fade-in-up">
-            <div class="text-ferrari-red text-4xl mb-2"><i class="fas fa-check-circle"></i></div>
-            <h3 class="font-display text-2xl uppercase">Request Sent</h3>
-            <p class="text-gray-500 text-sm mt-2">A dealer will contact you shortly.</p>
-            <a href="index.html" class="inline-block mt-4 text-xs font-bold uppercase underline">Return Home</a>
+        <div id="success-message" class="hidden animate-fade-in-up w-full">
+            <div class="flex flex-col items-center justify-center mb-6">
+                <div class="w-16 h-16 rounded-full border-2 border-green-500 flex items-center justify-center text-green-500 mb-4">
+                    <i class="fas fa-check text-2xl"></i>
+                </div>
+                <h3 class="font-display text-2xl uppercase">Payment Successful</h3>
+                <p class="text-gray-500 text-sm">Thank you for your inquiry.</p>
+            </div>
+
+            <div class="bg-black p-6 border border-gray-800 mb-6">
+                <h4 class="text-xs font-bold uppercase tracking-widest text-ferrari-red mb-4 border-b border-gray-800 pb-2">Transaction Receipt</h4>
+                
+                <div class="flex justify-between text-sm mb-2">
+                    <span class="text-gray-500">Order ID:</span>
+                    <span class="font-mono text-white">#FR-882910</span>
+                </div>
+                <div class="flex justify-between text-sm mb-2">
+                    <span class="text-gray-500">Model:</span>
+                    <span class="text-white" id="receipt-model">SF90 XX</span>
+                </div>
+                <div class="flex justify-between text-sm mb-2">
+                    <span class="text-gray-500">Color:</span>
+                    <span class="text-white" id="receipt-color">Rosso Corsa</span>
+                </div>
+                <div class="flex justify-between text-sm mt-4 pt-4 border-t border-gray-800">
+                    <span class="text-gray-500 font-bold uppercase">Total Paid</span>
+                    <span class="text-ferrari-red font-display text-xl" id="receipt-total">$850,000</span>
+                </div>
+            </div>
+
+            <a href="index.html" class="block w-full bg-white text-black text-center py-4 text-sm font-bold uppercase tracking-widest hover:bg-ferrari-red hover:text-white transition duration-300">
+                Return Home
+            </a>
         </div>
     </div>
 

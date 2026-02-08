@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="theme.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.142.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.142.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.142.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 <body class="bg-black text-white h-screen flex flex-col md:flex-row overflow-hidden">
 
@@ -22,14 +25,8 @@
                 <h2 id="configurator-title" class="font-display text-4xl uppercase text-white">Loading...</h2>
             </div>
 
-            <div id="car-preview-container" class="relative w-full aspect-[3/2] transition-all duration-1000 ease-in-out">
-                <canvas id="car-canvas" class="absolute inset-0 z-10"></canvas>
-                <img id="source-image" crossorigin="anonymous" src="" alt="Ferrari Source">
-
-                <div id="rim-overlay-rear" class="wheel-overlay bg-black mix-blend-multiply opacity-0 z-20" style="top: 52%; left: 70%; width: 14%; height: 25%;"></div>
-                <div id="rim-overlay-front" class="wheel-overlay bg-black mix-blend-multiply opacity-0 z-20" style="top: 52%; left: 23%; width: 13.5%; height: 25%;"></div>
-                <div id="caliper-overlay-rear" class="wheel-overlay bg-yellow-400 opacity-0 z-20" style="top: 57%; left: 74%; width: 5%; height: 9%;"></div>
-                <div id="caliper-overlay-front" class="wheel-overlay bg-yellow-400 opacity-0 z-20" style="top: 57%; left: 32%; width: 5%; height: 9%;"></div>
+            <div id="car-preview-container" class="relative w-full h-full transition-all duration-1000 ease-in-out">
+                <div id="3d-container" class="w-full h-full"></div>
             </div>
         </div>
     </div>
