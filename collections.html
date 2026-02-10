@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferrari | Collections</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="theme.js"></script>
+</head>
+<body class="bg-white text-black font-sans antialiased">
+
+    <!-- Light Navbar for this page -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-6 border-b border-gray-200 bg-white/90 backdrop-blur-md">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="hidden lg:flex space-x-8 text-xs font-bold tracking-widest uppercase items-center text-black">
+                <a href="models.html" class="nav-link hover:text-ferrari-red transition">Models</a>
+                <a href="racing.html" class="nav-link hover:text-ferrari-red transition">Racing</a>
+                <a href="collections.html" class="text-ferrari-red">Collections</a>
+            </div>
+
+            <div class="flex-shrink-0 mx-auto lg:mx-0">
+                <a href="index.html" class="flex flex-col items-center group">
+                    <div class="w-8 h-10 bg-ferrari-yellow rounded-t-sm flex items-center justify-center relative shadow-lg group-hover:scale-110 transition duration-300">
+                         <i class="fa-solid fa-horse text-black text-xl mb-1"></i>
+                         <div class="absolute top-0 w-full h-[2px] bg-green-600"></div>
+                         <div class="absolute top-[2px] w-full h-[2px] bg-white"></div>
+                         <div class="absolute top-[4px] w-full h-[2px] bg-red-600"></div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="hidden lg:flex space-x-8 text-xs font-bold tracking-widest uppercase text-black">
+                <a href="experiences.html" class="nav-link hover:text-ferrari-red transition">Experiences</a>
+                <a href="store.html" class="nav-link hover:text-ferrari-red transition">Store</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Editorial Hero -->
+    <header class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1549557088-7253509939e0?q=80&w=2940" class="w-full h-full object-cover">
+        </div>
+        <div class="absolute inset-0 bg-white/10 mix-blend-multiply"></div>
+        <div class="relative z-10 text-center animate-fade-in-up mt-20">
+            <h2 class="text-black font-bold tracking-[0.5em] uppercase text-sm mb-4">Fall / Winter 2026</h2>
+            <h1 class="font-display font-black text-7xl md:text-9xl uppercase leading-none text-ferrari-red mb-6 mix-blend-multiply">Style &<br>Speed</h1>
+            <a href="store.html" class="inline-block border-b-2 border-black text-black text-sm font-bold uppercase tracking-widest pb-1 hover:text-ferrari-red hover:border-ferrari-red transition">View Lookbook</a>
+        </div>
+    </header>
+
+    <!-- Categories Grid -->
+    <section class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="relative h-[600px] group overflow-hidden cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition"></div>
+                    <div class="absolute bottom-10 left-10 text-white">
+                        <h3 class="font-display text-4xl uppercase mb-2">High Fashion</h3>
+                        <p class="text-sm opacity-80 mb-4">Runway collections inspired by automotive design.</p>
+                        <span class="text-xs font-bold uppercase tracking-widest underline">Discover</span>
+                    </div>
+                </div>
+                <div class="relative h-[600px] group overflow-hidden cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1611095790444-1dfa35e37b52?q=80&w=1000" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition"></div>
+                    <div class="absolute bottom-10 left-10 text-white">
+                        <h3 class="font-display text-4xl uppercase mb-2">Accessories</h3>
+                        <p class="text-sm opacity-80 mb-4">Watches, eyewear, and leather goods.</p>
+                        <span class="text-xs font-bold uppercase tracking-widest underline">Shop Now</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-white text-black border-t border-gray-200 py-12 text-center text-xs text-gray-500">
+        &copy; 2026 Ferrari Style.
+    </footer>
+
+    <script src="script.js" defer></script>
+</body>
+</html>

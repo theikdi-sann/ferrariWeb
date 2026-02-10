@@ -9,7 +9,18 @@ const CAR_DATABASE = [
         price: 3500000,
         image: './images/enzo.png',
         modelFile: 'enzo.glb',
-        config: { scale: 140.0, y: 0 }
+        config: { scale: 140.0, y: 0 },
+        options: {
+            paint: true,
+            rims: true,
+            calipers: true,
+            interior: true,
+            stripes: false,
+            carbon: true,
+            tint: true,
+            details: true,
+            engine: true
+        }
     },
     {
         id: 'portofino',
@@ -17,32 +28,118 @@ const CAR_DATABASE = [
         price: 320000,
         image: './images/portofino.png',
         modelFile: 'portofino.glb',
-        config: { scale: 0.8, y: 0}
+        config: { scale: 0.8, y: 0},
+        options: {
+            paint: true,
+            rims: true,
+            calipers: true,
+            interior: true,
+            stripes: false,
+            carbon: false,
+            tint: true,
+            details: false,
+            engine: false
+        }
     },
+    {
+        id: 'roma',
+        name: 'Roma',
+        price: 4000000,
+        image: './images/laferrari.png',
+        modelFile: 'roma.glb',
+        config: { scale: 150, y: 0.5},
+        options: {
+            paint: true,
+            rims: true,
+            calipers: true,
+            interior: true,
+            stripes: false,
+            carbon: true,
+            tint: true,
+            details: true,
+            engine: true
+        }
+    },
+
+
+    {
+        id: 'f40',
+        name: 'F40',
+        price: 4000000,
+        image: './images/f40.png',
+        modelFile: 'f40.glb',
+        config: { scale: 150, y: 0},
+        options: {
+            paint: true,
+            rims: true,
+            calipers: true,
+            interior: true,
+            stripes: false,
+            carbon: true,
+            tint: true,
+            details: true,
+            engine: true
+        }
+    },
+
+
     {
         id: 'laferrari',
         name: 'LaFerrari',
         price: 4000000,
         image: './images/laferrari.png',
         modelFile: 'laferrari.glb',
-        config: { scale: 1.5, y: 0.5}
+        config: { scale: 1.5, y: 0.5},
+        options: {
+            paint: true,
+            rims: true,
+            calipers: true,
+            interior: true,
+            stripes: false,
+            carbon: true,
+            tint: true,
+            details: true,
+            engine: true
+        }
     },
 
     {
         id: 'sf90-spider',
         name: 'SF90 Spider',
         price: 850000,
-        image: 'https://images.unsplash.com/photo-1592198084033-aade902d1aae?q=80&w=2940',
+        image: './images/sf90.png',
         modelFile: 'sf90_spider.glb',
-        config: { scale: 140, y: 0}
+        config: { scale: 140, y: 0},
+        options: {
+            paint: true,
+            rims: true,
+            calipers: true,
+            interior: true,
+            stripes: true,
+            carbon: true,
+            tint: true,
+            details: true,
+            engine: true
+        }
     },
   {
     id: '488-pista',
     name: "488 Pista",
     price: 900000,
-    image: 'https://images.unsplash.com/photo-1592198084033-aade902d1aae?q=80&w=2940',
+    image: './images/488_pista.png',
     modelFile: '488_pista.glb',
-    config: { scale: 140, y: 0}
+    config: { scale: 140, y: 0},
+    options: {
+        paint: true,
+        rims: true,
+        calipers: true,
+        interior: true,
+        stripes: true,
+        carbon: true,
+        tint: true,
+        details: true,
+        engine: true
+    }
 
   },
     {
@@ -51,7 +148,18 @@ const CAR_DATABASE = [
         price: 850000,
         image: './images/monza-sp1.png',
         modelFile: 'monza-sp1.glb',
-        config: { scale: 140, y: 0 }
+        config: { scale: 140, y: 0 },
+        options: {
+            paint: true,
+            rims: true,
+            calipers: false,
+            interior: true,
+            stripes: true,
+            carbon: true,
+            tint: false,
+            details: false,
+            engine: false
+        }
     },
 ];
 

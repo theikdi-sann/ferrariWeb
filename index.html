@@ -16,7 +16,7 @@
         <i class="fa-solid fa-horse text-ferrari-red prancing-horse-loader"></i>
     </div>
 
-    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 bg-transparent py-6 border-b border-transparent hover:bg-black/90">
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-6 border-b border-white/10 hover:bg-black/80 hover:backdrop-blur-md">
         <div class="container mx-auto px-6 flex justify-between items-center">
             
             <div class="hidden lg:flex space-x-8 text-xs font-bold tracking-widest uppercase items-center">
@@ -33,8 +33,8 @@
                     </div>
                 </div>
 
-                <a href="#" class="nav-link hover:text-gray-300 transition">Racing</a>
-                <a href="#" class="nav-link hover:text-gray-300 transition">Collections</a>
+                <a href="racing.html" class="nav-link hover:text-gray-300 transition">Racing</a>
+                <a href="collections.html" class="nav-link hover:text-gray-300 transition">Collections</a>
             </div>
 
             <div class="flex-shrink-0 mx-auto lg:mx-0">
@@ -50,34 +50,47 @@
             </div>
 
             <div class="hidden lg:flex space-x-8 text-xs font-bold tracking-widest uppercase">
-                <a href="#" class="nav-link hover:text-gray-300 transition">Experiences</a>
-                <a href="#" class="nav-link hover:text-gray-300 transition">Store</a>
+                <a href="experiences.html" class="nav-link hover:text-gray-300 transition">Experiences</a>
+                <a href="store.html" class="nav-link hover:text-gray-300 transition">Store</a>
             </div>
         </div>
     </nav>
 
-    <header class="relative h-screen w-full overflow-hidden hero-bg flex items-end justify-start pb-24">
-        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90"></div>
-        <div class="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent"></div>
-        <div class="relative z-10 container mx-auto px-6">
-            <h2 class="text-ferrari-red font-bold tracking-[0.3em] uppercase text-sm mb-4 animate-fade-in-up" style="animation-delay: 0.2s;">New Release</h2>
-            <h1 class="font-display font-medium text-6xl md:text-8xl lg:text-9xl uppercase leading-none mb-6 animate-fade-in-up" style="animation-delay: 0.4s;">
-                SF90 XX <br> <span class="text-stroke text-transparent bg-clip-text bg-white">Stradale</span>
+    <header class="relative h-screen w-full overflow-hidden flex items-center justify-center">
+        <!-- Video Background -->
+        <div class="absolute inset-0 w-full h-full overflow-hidden">
+            <div class="absolute inset-0 bg-black/50 z-10"></div> <!-- Overlay -->
+            <video autoplay muted loop playsinline poster="hero.png" class="w-full h-full object-cover transform scale-105" id="hero-video">
+                <source src="videos/Ferrari_SF_Spider_Video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <!-- Content -->
+        <div class="relative z-20 text-center px-6 mix-blend-screen">
+            <h2 class="text-ferrari-red font-bold tracking-[0.5em] uppercase text-sm md:text-base mb-6 animate-fade-in-up">The New Era</h2>
+            <h1 class="font-display font-black text-7xl md:text-9xl lg:text-[12rem] uppercase leading-none mb-2 text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400 animate-slide-in" style="letter-spacing: -0.05em;">
+                SF90 XX
             </h1>
-            <p class="text-gray-300 max-w-lg text-lg mb-8 font-light animate-fade-in-up" style="animation-delay: 0.6s;">
-                The first road-legal XX. A milestone in Ferrari history, delivering extreme performance for the road.
+            <p class="text-white font-light text-xl md:text-2xl tracking-widest uppercase mb-12 animate-fade-in-up" style="animation-delay: 0.2s;">
+                Beyond Imagination
             </p>
-            <div class="flex space-x-4 animate-fade-in-up" style="animation-delay: 0.8s;">
-                <a href="models.html" class="bg-ferrari-red text-white px-8 py-3 text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-ferrari-red transition duration-300 inline-block">
-                    Discover Range
+            
+            <div class="flex flex-col md:flex-row justify-center gap-6 animate-fade-in-up" style="animation-delay: 0.4s;">
+                <a href="models.html" class="group relative px-8 py-4 bg-ferrari-red text-white font-bold uppercase tracking-widest overflow-hidden transition-all hover:scale-105">
+                    <span class="relative z-10">Explore Models</span>
+                    <div class="absolute inset-0 bg-white transform -translate-x-full skew-x-12 group-hover:translate-x-0 transition-transform duration-500 ease-out"></div>
+                    <span class="absolute inset-0 flex items-center justify-center text-ferrari-red z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">Explore Models</span>
                 </a>
-                <a href="configurator.html?model=SF90 XX Stradale&price=850000&img=https://images.unsplash.com/photo-1592198084033-aade902d1aae?q=80&w=2940&auto=format&fit=crop" class="border border-white text-white px-8 py-3 text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-black transition duration-300 inline-block">
-                    Configure
+                <a href="configurator.html" class="group px-8 py-4 border border-white text-white font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all hover:scale-105 backdrop-blur-sm">
+                    Configure Yours
                 </a>
             </div>
         </div>
-        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <i class="fas fa-chevron-down text-white text-xl opacity-50"></i>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
+            <div class="w-[1px] h-16 bg-gradient-to-b from-transparent via-ferrari-red to-transparent"></div>
         </div>
     </header>
 
@@ -144,8 +157,8 @@
                 <div>
                     <h4 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-6">Racing</h4>
                     <ul class="space-y-3 text-sm font-medium">
-                        <li><a href="#" class="hover:text-ferrari-red transition">Scuderia Ferrari</a></li>
-                        <li><a href="#" class="hover:text-ferrari-red transition">Hypercar</a></li>
+                        <li><a href="racing.html" class="hover:text-ferrari-red transition">Scuderia Ferrari</a></li>
+                        <li><a href="racing.html" class="hover:text-ferrari-red transition">Hypercar</a></li>
                     </ul>
                 </div>
                 <div>

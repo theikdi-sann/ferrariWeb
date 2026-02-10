@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferrari | Racing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="theme.js"></script>
+</head>
+<body class="bg-ferrari-black text-white font-sans antialiased">
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-6 border-b border-white/10 bg-black/80 backdrop-blur-md">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="hidden lg:flex space-x-8 text-xs font-bold tracking-widest uppercase items-center">
+                <a href="models.html" class="nav-link hover:text-gray-300 transition">Models</a>
+                <a href="racing.html" class="text-ferrari-red">Racing</a>
+                <a href="collections.html" class="nav-link hover:text-gray-300 transition">Collections</a>
+            </div>
+
+            <div class="flex-shrink-0 mx-auto lg:mx-0">
+                <a href="index.html" class="flex flex-col items-center group">
+                    <div class="w-8 h-10 bg-ferrari-yellow rounded-t-sm flex items-center justify-center relative shadow-lg group-hover:scale-110 transition duration-300">
+                         <i class="fa-solid fa-horse text-black text-xl mb-1"></i>
+                         <div class="absolute top-0 w-full h-[2px] bg-green-600"></div>
+                         <div class="absolute top-[2px] w-full h-[2px] bg-white"></div>
+                         <div class="absolute top-[4px] w-full h-[2px] bg-red-600"></div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="hidden lg:flex space-x-8 text-xs font-bold tracking-widest uppercase">
+                <a href="experiences.html" class="nav-link hover:text-gray-300 transition">Experiences</a>
+                <a href="store.html" class="nav-link hover:text-gray-300 transition">Store</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative h-[60vh] flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1532588147775-4702d28f895c?q=80&w=2940')] bg-cover bg-center">
+            <div class="absolute inset-0 bg-black/60"></div>
+        </div>
+        <div class="relative z-10 text-center animate-fade-in-up">
+            <h2 class="text-ferrari-red font-bold tracking-[0.5em] uppercase text-sm mb-4">Scuderia Ferrari</h2>
+            <h1 class="font-display font-black text-6xl md:text-8xl uppercase leading-none text-white mb-6">Born to Race</h1>
+            <p class="text-gray-300 max-w-2xl mx-auto text-lg font-light">
+                The most successful team in Formula 1 history. Passion, innovation, and the relentless pursuit of speed.
+            </p>
+        </div>
+    </header>
+
+    <!-- Stats Section -->
+    <section class="py-20 bg-ferrari-dark border-b border-gray-900">
+        <div class="container mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+                <div class="font-display text-5xl md:text-6xl text-white mb-2">16</div>
+                <div class="text-xs font-bold uppercase tracking-widest text-ferrari-red">Constructors' Titles</div>
+            </div>
+            <div>
+                <div class="font-display text-5xl md:text-6xl text-white mb-2">15</div>
+                <div class="text-xs font-bold uppercase tracking-widest text-ferrari-red">Drivers' Titles</div>
+            </div>
+            <div>
+                <div class="font-display text-5xl md:text-6xl text-white mb-2">243</div>
+                <div class="text-xs font-bold uppercase tracking-widest text-ferrari-red">Grand Prix Wins</div>
+            </div>
+            <div>
+                <div class="font-display text-5xl md:text-6xl text-white mb-2">1000+</div>
+                <div class="text-xs font-bold uppercase tracking-widest text-ferrari-red">Race Starts</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Drivers Section -->
+    <section class="py-20 bg-black">
+        <div class="container mx-auto px-6">
+            <h3 class="text-ferrari-red font-bold tracking-widest uppercase text-sm mb-12 text-center">2026 Drivers</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- Driver 1 -->
+                <div class="group relative overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1629814408669-07f060e2273e?q=80&w=2000" class="w-full h-[500px] object-cover grayscale group-hover:grayscale-0 transition duration-700">
+                    <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black via-black/80 to-transparent">
+                        <div class="font-display text-6xl text-white opacity-20 absolute top-4 right-4">16</div>
+                        <h3 class="font-display text-3xl uppercase text-white mb-1">Charles Leclerc</h3>
+                        <p class="text-ferrari-red text-xs font-bold uppercase tracking-widest">Monaco</p>
+                    </div>
+                </div>
+                <!-- Driver 2 -->
+                <div class="group relative overflow-hidden">
+                    <img src="https://media.formula1.com/image/upload/v1708093122/fom-website/drivers/2024/Drivers/hamilton.jpg" class="w-full h-[500px] object-cover grayscale group-hover:grayscale-0 transition duration-700">
+                    <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black via-black/80 to-transparent">
+                        <div class="font-display text-6xl text-white opacity-20 absolute top-4 right-4">44</div>
+                        <h3 class="font-display text-3xl uppercase text-white mb-1">Lewis Hamilton</h3>
+                        <p class="text-ferrari-red text-xs font-bold uppercase tracking-widest">United Kingdom</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-ferrari-dark text-white border-t border-gray-900 py-12 text-center text-xs text-gray-600">
+        &copy; 2026 Ferrari S.p.A.
+    </footer>
+
+    <script src="script.js" defer></script>
+</body>
+</html>

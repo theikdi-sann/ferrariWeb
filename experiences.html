@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferrari | Experiences</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="theme.js"></script>
+</head>
+<body class="bg-ferrari-black text-white font-sans antialiased">
+
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-6 border-b border-white/10 bg-black/80 backdrop-blur-md">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="hidden lg:flex space-x-8 text-xs font-bold tracking-widest uppercase items-center">
+                <a href="models.html" class="nav-link hover:text-gray-300 transition">Models</a>
+                <a href="racing.html" class="nav-link hover:text-gray-300 transition">Racing</a>
+                <a href="collections.html" class="nav-link hover:text-gray-300 transition">Collections</a>
+            </div>
+
+            <div class="flex-shrink-0 mx-auto lg:mx-0">
+                <a href="index.html" class="flex flex-col items-center group">
+                    <div class="w-8 h-10 bg-ferrari-yellow rounded-t-sm flex items-center justify-center relative shadow-lg group-hover:scale-110 transition duration-300">
+                         <i class="fa-solid fa-horse text-black text-xl mb-1"></i>
+                         <div class="absolute top-0 w-full h-[2px] bg-green-600"></div>
+                         <div class="absolute top-[2px] w-full h-[2px] bg-white"></div>
+                         <div class="absolute top-[4px] w-full h-[2px] bg-red-600"></div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="hidden lg:flex space-x-8 text-xs font-bold tracking-widest uppercase">
+                <a href="experiences.html" class="text-ferrari-red">Experiences</a>
+                <a href="store.html" class="nav-link hover:text-gray-300 transition">Store</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Fullscreen Slider Section -->
+    <section class="relative h-screen flex items-end pb-20 overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=2940')] bg-cover bg-center grayscale hover:grayscale-0 transition duration-1000 transform hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+        </div>
+        
+        <div class="relative z-10 container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-end">
+            <div>
+                <h3 class="text-ferrari-red font-bold tracking-[0.3em] uppercase text-sm mb-4">Driving Courses</h3>
+                <h1 class="font-display font-medium text-6xl uppercase leading-tight mb-6">Corso Pilota</h1>
+                <p class="text-gray-300 max-w-lg mb-8">
+                    Master the art of driving at the Fiorano Circuit. Exclusive courses designed to elevate your skills to professional levels.
+                </p>
+                <a href="#" class="bg-white text-black px-8 py-3 text-sm font-bold uppercase tracking-widest hover:bg-ferrari-red hover:text-white transition duration-300">Book Course</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Cards -->
+    <section class="py-20 bg-ferrari-dark">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <div class="bg-black border border-gray-800 p-8 group hover:border-ferrari-red transition duration-300 cursor-pointer">
+                    <div class="h-48 bg-gray-900 mb-6 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1552519507-da8b1227ad4b?q=80&w=800" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition duration-500">
+                    </div>
+                    <h3 class="font-display text-2xl uppercase mb-2 group-hover:text-ferrari-red transition">Maranello Tour</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">A private journey inside the factory where legends are born.</p>
+                    <span class="text-xs font-bold uppercase tracking-widest border-b border-gray-700 pb-1 group-hover:border-ferrari-red">Learn More</span>
+                </div>
+
+                <div class="bg-black border border-gray-800 p-8 group hover:border-ferrari-red transition duration-300 cursor-pointer">
+                    <div class="h-48 bg-gray-900 mb-6 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=800" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition duration-500">
+                    </div>
+                    <h3 class="font-display text-2xl uppercase mb-2 group-hover:text-ferrari-red transition">Museums</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Discover the history of the Prancing Horse in Maranello and Modena.</p>
+                    <span class="text-xs font-bold uppercase tracking-widest border-b border-gray-700 pb-1 group-hover:border-ferrari-red">Buy Tickets</span>
+                </div>
+
+                <div class="bg-black border border-gray-800 p-8 group hover:border-ferrari-red transition duration-300 cursor-pointer">
+                    <div class="h-48 bg-gray-900 mb-6 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1506469717960-43352851d01a?q=80&w=800" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition duration-500">
+                    </div>
+                    <h3 class="font-display text-2xl uppercase mb-2 group-hover:text-ferrari-red transition">Cavalcade</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Join an exclusive touring event for Ferrari owners in breathtaking locations.</p>
+                    <span class="text-xs font-bold uppercase tracking-widest border-b border-gray-700 pb-1 group-hover:border-ferrari-red">Register</span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-black text-white border-t border-gray-900 py-12 text-center text-xs text-gray-600">
+        &copy; 2026 Ferrari Experiences.
+    </footer>
+
+    <script src="script.js" defer></script>
+</body>
+</html>

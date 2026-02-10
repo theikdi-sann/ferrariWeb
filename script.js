@@ -29,23 +29,91 @@ if (typeof getCarById === 'function') {
 const currentModel = activeCar.name;
 const currentPriceBase = activeCar.price;
 
-let currentOptions = {
-    rims: 0,
-    calipers: 0,
-    color: 'Red'
+// --- PRICING CONSTANTS ---
+const PRICING = {
+    paint: {
+        'red': 0, // Rosso Corsa (Standard)
+        'black': 0, // Nero Daytona
+        'yellow': 12500, // Giallo Modena (Historical)
+        'silver': 15000, // Argento Nurburgring
+        'blue': 15000, // Blu Tour de France
+        'pink': 30000, // Rosa Metallizzato (Special)
+        'carbon': 250000 // Full Carbon Body
+    },
+    rims: {
+        'silver': 0, // Standard
+        'black': 4500, // Matte Black
+        'gold': 7500, // Oro
+        'carbon': 25000 // Carbon Fibre Wheels
+    },
+    calipers: {
+        'silver': 0, // Standard
+        'black': 1200, 
+        'red': 1500, 
+        'yellow': 1500
+    },
+    interior: {
+        'black': 0,
+        'tan': 4500,
+        'red': 5500
+    },
+    stripes: {
+        'none': 0, // Implicit
+        'white': 12000,
+        'black': 12000,
+        'blue': 15000,
+        'yellow': 15000
+    },
+    carbon: {
+        'gloss': 0,
+        'matte': 15000
+    },
+    tint: {
+        'light': 0,
+        'dark': 2500
+    },
+    details: {
+        'original': 0,
+        'dark': 3500, // Dark badges
+        'red': 0,
+        'smoked': 1500, // Smoked tails
+        'black': 2000, // Black Grille
+        'titanium': 4000
+    },
+    engine: {
+        'black': 0,
+        'red': 8000,
+        'gold': 12000
+    }
 };
 
+let currentOptions = {
+    paint: 0,
+    rims: 0,
+    calipers: 0,
+    interior: 0,
+    stripes: 0,
+    carbon: 0,
+    tint: 0,
+    details_badges: 0,
+    details_lights: 0,
+    details_grille: 0,
+    engine: 0,
+    
+    // Config State
+    colorName: 'Rosso Corsa'
+};
 
 // --- 2. GLOBAL UI INTERACTIONS ---
 const navbar = document.getElementById('navbar');
 if (navbar) {
     window.addEventListener('scroll', function() {
         if (window.scrollY > 50) {
-            navbar.classList.add('bg-black', 'shadow-lg', 'py-4');
-            navbar.classList.remove('py-6');
+            navbar.classList.add('bg-black/80', 'backdrop-blur-md', 'shadow-lg', 'py-4', 'border-transparent');
+            navbar.classList.remove('py-6', 'border-white/10');
         } else {
-            navbar.classList.remove('bg-black', 'shadow-lg', 'py-4');
-            navbar.classList.add('py-6');
+            navbar.classList.remove('bg-black/80', 'backdrop-blur-md', 'shadow-lg', 'py-4', 'border-transparent');
+            navbar.classList.add('py-6', 'border-white/10');
         }
     });
 }
@@ -59,6 +127,13 @@ window.addEventListener('load', function() {
                 loader.style.display = 'none';
             }, 500);
         }, 800);
+    }
+
+    // Force video play
+    const video = document.getElementById('hero-video');
+    if (video) {
+        video.muted = true;
+        video.play().catch(e => console.log("Auto-play prevented:", e));
     }
 });
 
@@ -83,6 +158,87 @@ document.querySelectorAll('.animate-fade-in-up').forEach(el => {
 if (document.getElementById('3d-container')) {
     const container = document.getElementById('3d-container');
     let scene, camera, renderer, model, controls;
+
+    // --- HELPER: HANDLE SELECTION & PRICING ---
+    function handleSelection(btn, category, subCategoryKey, priceKey) {
+        if (!btn) return;
+
+        // 1. UI: Toggle Active State
+        const parent = btn.parentNode;
+        Array.from(parent.children).forEach(child => {
+            if (child.tagName === 'BUTTON') {
+                child.classList.remove('active');
+            }
+        });
+
+        // Add active class to clicked button
+        btn.classList.add('active');
+
+        // 2. Pricing Update
+        let price = 0;
+        if (PRICING[category] && PRICING[category][priceKey] !== undefined) {
+            price = PRICING[category][priceKey];
+        }
+        
+        // Store price. If subCategoryKey provided (e.g. 'details_badges'), use that, else use category.
+        const storageKey = subCategoryKey || category;
+        currentOptions[storageKey] = price;
+
+        updatePriceDisplay();
+    }
+
+    function updatePriceDisplay() {
+        let optionTotal = 0;
+        for (const key in currentOptions) {
+            if (typeof currentOptions[key] === 'number') {
+                optionTotal += currentOptions[key];
+            }
+        }
+        const total = currentPriceBase + optionTotal;
+        
+        // Animate the number change
+        const el = document.getElementById('total-price');
+        if(el) el.innerText = '$' + total.toLocaleString();
+    }
+
+    function updateConfiguratorUI() {
+        if (!activeCar || !activeCar.options) return; 
+
+        const options = activeCar.options;
+        const mapping = {
+            'paint': ['opt-paint'],
+            'rims': ['opt-rims-color'],
+            'calipers': ['opt-calipers-color'],
+            'interior': ['opt-interior'],
+            'stripes': ['opt-stripes'],
+            'carbon': ['opt-carbon'],
+            'tint': ['opt-tint'],
+            'details': ['opt-details'],
+            'engine': ['opt-engine']
+        };
+
+        for (const [key, ids] of Object.entries(mapping)) {
+            const isAvailable = options[key];
+            ids.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (isAvailable) {
+                         el.classList.remove('hidden');
+                         el.style.display = ''; // Reset inline display if set
+                    } else {
+                         el.classList.add('hidden'); // Tailwind hidden
+                         el.style.display = 'none'; // Force hide
+                    }
+                }
+            });
+        }
+        
+        // Special Handling for "View Engine" buttons if engine option is false
+        if (options.engine === false) {
+            const viewEngineBtn = document.querySelector('button[onclick="viewEngine()"]');
+            if (viewEngineBtn) viewEngineBtn.style.display = 'none';
+        }
+    }
 
     function init() {
         // Scene
@@ -220,7 +376,10 @@ if (document.getElementById('3d-container')) {
                 scene.add(model);
                 
                 // Apply default color (Red)
-                changeColor('red');
+                // We pass null for btn here since it's initial load, but we could find the default red button
+                const redBtn = document.querySelector('button[title="Rosso Corsa"]');
+                if (redBtn) changeColor(redBtn, 'red');
+                else changeColor(null, 'red');
                 
                 // Only start animation loop if not already running (though init calls this once)
                 animate();
@@ -237,6 +396,7 @@ if (document.getElementById('3d-container')) {
         }
 
         loadCarModel(targetFile);
+        updateConfiguratorUI(); // Initialize UI based on options
 
         window.addEventListener('resize', onWindowResize, false);
     }
@@ -301,7 +461,8 @@ if (document.getElementById('3d-container')) {
 
     // --- INTERACTION LOGIC ---
 
-    window.changeColor = function(colorName) {
+    window.changeColor = function(btn, colorName) {
+        handleSelection(btn, 'paint', null, colorName);
         if (!model) return;
 
         // Photorealistic PBR Palette
@@ -310,14 +471,14 @@ if (document.getElementById('3d-container')) {
             'yellow': { hex: 0xD4AF37, metalness: 0.8, roughness: 0.1, name: 'Giallo Modena' },
             'black': { hex: 0x010101, metalness: 0.95, roughness: 0.01, name: 'Nero Daytona' }, 
             'silver': { hex: 0x888888, metalness: 1.0, roughness: 0.1, name: 'Argento Nurburgring' },
-            'blue': { hex: 0x00032b, metalness: 0.9, roughness: 0.05, name: 'Blu Tour de France' }
+            'blue': { hex: 0x00032b, metalness: 0.9, roughness: 0.05, name: 'Blu Tour de France' },
+            'pink': { hex: 0xFF007F, metalness: 0.85, roughness: 0.15, name: 'Rosa Metallizzato' },
+            'carbon': { hex: 0x111111, metalness: 0.1, roughness: 0.8, name: 'Visible Carbon Fibre' }
         };
 
         const target = colorMap[colorName] || colorMap['red'];
-        currentOptions.color = target.name;
+        currentOptions.colorName = target.name;
 
-        // UI Update handled by button click directly or here if needed
-        
         const targetColor = new THREE.Color(target.hex);
         
         model.traverse((child) => {
@@ -337,14 +498,20 @@ if (document.getElementById('3d-container')) {
                     if (child.material.isMeshStandardMaterial) {
                         child.material.metalness = target.metalness;
                         child.material.roughness = target.roughness;
-                        child.material.envMapIntensity = 2.5; 
+                        
+                        if (colorName === 'carbon') {
+                            child.material.envMapIntensity = 0.5; // Less reflective for raw carbon
+                        } else {
+                            child.material.envMapIntensity = 2.5; 
+                        }
                     }
                 }
             }
         });
     };
 
-    window.changeRimColor = function(variant) {
+    window.changeRimColor = function(btn, variant) {
+        handleSelection(btn, 'rims', null, variant);
         if (!model) return;
         
         const variants = {
@@ -374,7 +541,8 @@ if (document.getElementById('3d-container')) {
         });
     };
 
-    window.changeCaliperColor = function(colorName) {
+    window.changeCaliperColor = function(btn, colorName) {
+        handleSelection(btn, 'calipers', null, colorName);
         if (!model) return;
         
         const colors = {
@@ -396,7 +564,8 @@ if (document.getElementById('3d-container')) {
         });
     };
 
-    window.changeInteriorColor = function(colorName) {
+    window.changeInteriorColor = function(btn, colorName) {
+        handleSelection(btn, 'interior', null, colorName);
         if (!model) return;
         
         const colors = {
@@ -417,7 +586,8 @@ if (document.getElementById('3d-container')) {
         });
     };
 
-    window.changeStripeColor = function(colorName) {
+    window.changeStripeColor = function(btn, colorName) {
+        handleSelection(btn, 'stripes', null, colorName);
         if (!model) return;
 
         const colors = {
@@ -442,7 +612,8 @@ if (document.getElementById('3d-container')) {
         });
     };
 
-    window.changeCarbonFinish = function(finish) {
+    window.changeCarbonFinish = function(btn, finish) {
+        handleSelection(btn, 'carbon', null, finish);
         if (!model) return;
 
         model.traverse((child) => {
@@ -464,7 +635,8 @@ if (document.getElementById('3d-container')) {
         });
     };
 
-    window.changeWindowTint = function(level) {
+    window.changeWindowTint = function(btn, level) {
+        handleSelection(btn, 'tint', null, level);
         if (!model) return;
 
         model.traverse((child) => {
@@ -492,7 +664,8 @@ if (document.getElementById('3d-container')) {
         });
     };
 
-    window.changeBadgeColor = function(type) {
+    window.changeBadgeColor = function(btn, type) {
+        handleSelection(btn, 'details', 'details_badges', type);
         if (!model) return;
 
         const color = (type === 'dark') ? new THREE.Color(0x555555) : new THREE.Color(0xffffff);
@@ -507,7 +680,8 @@ if (document.getElementById('3d-container')) {
         });
     };
 
-    window.changeTailLights = function(type) {
+    window.changeTailLights = function(btn, type) {
+        handleSelection(btn, 'details', 'details_lights', type);
         if (!model) return;
 
         model.traverse((child) => {
@@ -533,7 +707,8 @@ if (document.getElementById('3d-container')) {
         });
     };
 
-    window.changeGrilleColor = function(type) {
+    window.changeGrilleColor = function(btn, type) {
+        handleSelection(btn, 'details', 'details_grille', type);
         if (!model) return;
 
         model.traverse((child) => {
@@ -554,58 +729,17 @@ if (document.getElementById('3d-container')) {
         });
     };
 
-    window.selectOption = function(btn, category, price, variant) {
-        // UI Update
-        const parent = btn.parentNode;
-        parent.querySelectorAll('.option-btn').forEach(b => {
-            b.classList.remove('active', 'border-white');
-            b.classList.add('border-gray-800');
-            b.querySelector('span:first-child').classList.remove('text-white');
-            b.querySelector('span:first-child').classList.add('text-gray-300');
-        });
-        
-        btn.classList.add('active', 'border-white');
-        btn.classList.remove('border-gray-800');
-        btn.querySelector('span:first-child').classList.add('text-white');
-
-        // State Update
-        currentOptions[category] = price;
-        updatePriceDisplay();
-        
-        if (!model) return;
-
-        // Logic to swap materials/meshes based on category
-        // Note: This relies on specific mesh naming in the GLTF file
-        model.traverse((child) => {
-            if (child.isMesh) {
-                if (category === 'rims' && child.material.name.includes('rim')) {
-                    if (variant === 'carbon') {
-                        child.material.color.set(0x111111); // Darken
-                        child.material.roughness = 0.2;
-                    } else {
-                        child.material.color.set(0xaaaaaa); // Standard Silver
-                        child.material.roughness = 0.4;
-                    }
-                }
-                if (category === 'calipers' && child.material.name.includes('caliper')) {
-                    if (variant === 'yellow') child.material.color.set(0xffd700);
-                    else if (variant === 'red') child.material.color.set(0xd40000);
-                    else child.material.color.set(0x888888); // Standard Grey
-                }
-            }
-        });
+    window.changeEngineColor = function(btn, colorName) {
+         handleSelection(btn, 'engine', null, colorName);
+         // Logic to change engine color if applicable in your model...
+         console.log('Engine color changed to', colorName);
     };
 
-    function updatePriceDisplay() {
-        const total = currentPriceBase + currentOptions.rims + currentOptions.calipers;
-        document.getElementById('total-price').innerText = '$' + total.toLocaleString();
-    }
-
     window.proceedToCheckout = function() {
-        const total = currentPriceBase + currentOptions.rims + currentOptions.calipers;
+        const total = document.getElementById('total-price').innerText.replace('$','').replace(/,/g,'');
         const params = new URLSearchParams({
             model: currentModel,
-            color: currentOptions.color,
+            color: currentOptions.colorName,
             total: total
         });
         window.location.href = `checkout.html?${params.toString()}`;

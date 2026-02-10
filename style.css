@@ -88,9 +88,25 @@
     transition: background-color 0.5s ease;
 }
 
-.option-btn.active {
-    border-color: #D40000;
-    color: white;
+/* Base button states */
+button.transition {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Active State for Round Swatches */
+button.rounded-full.active {
+    box-shadow: 0 0 0 2px #000, 0 0 0 5px #fff;
+    transform: scale(1.1);
+    z-index: 10;
+}
+
+/* Active State for Text/Square Buttons (Rims, Tint, etc) */
+button.active:not(.rounded-full) {
+    background-color: white !important;
+    color: black !important;
+    border-color: white !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
 }
 
 .color-swatch {
