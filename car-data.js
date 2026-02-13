@@ -9,7 +9,7 @@ const CAR_DATABASE = [
         price: 3500000,
         image: './images/enzo.png',
         modelFile: 'enzo.glb',
-        config: { scale: 135.0, y: 0 },
+        config: { scale: 135.0, y: -0.8},
         options: {
             paint: true,
             rims: true,
@@ -28,7 +28,7 @@ const CAR_DATABASE = [
         price: 320000,
         image: './images/portofino.png',
         modelFile: 'portofino.glb',
-        config: { scale: 0.8, y: 0},
+        config: { scale: 0.8, y: -0.5},
         options: {
             paint: true,
             rims: true,
@@ -47,7 +47,7 @@ const CAR_DATABASE = [
         price: 4000000,
         image: './images/roma.png',
         modelFile: 'roma.glb',
-        config: { scale: 137, y: 0},
+        config: { scale: 137, y: -0.5},
         options: {
             paint: true,
             rims: true,
@@ -68,7 +68,7 @@ const CAR_DATABASE = [
         price: 4000000,
         image: './images/f40.png',
         modelFile: 'f40.glb',
-        config: { scale: 140, y: 0},
+        config: { scale: 140, y: -0.8},
         options: {
             paint: true,
             rims: true,
@@ -89,7 +89,7 @@ const CAR_DATABASE = [
         price: 4000000,
         image: './images/laferrari.png',
         modelFile: 'laferrari.glb',
-        config: { scale: 1.4, y: 0},
+        config: { scale: 1.4, y: -0.8},
         options: {
             paint: true,
             rims: true,
@@ -109,7 +109,7 @@ const CAR_DATABASE = [
         price: 850000,
         image: './images/sf90.png',
         modelFile: 'sf90_spider.glb',
-        config: { scale: 140, y: 0},
+        config: { scale: 140, y: -0.8},
         options: {
             paint: true,
             rims: true,
@@ -128,7 +128,7 @@ const CAR_DATABASE = [
     price: 900000,
     image: './images/488_pista.png',
     modelFile: '488_pista.glb',
-    config: { scale: 90, y: 0},
+    config: { scale: 90, y: -0.5},
     options: {
         paint: true,
         rims: true,
@@ -148,7 +148,7 @@ const CAR_DATABASE = [
         price: 850000,
         image: './images/monza-sp1.png',
         modelFile: 'monza-sp1.glb',
-        config: { scale: 140, y: 0 },
+        config: { scale: 140, y: -0.6},
         options: {
             paint: true,
             rims: true,
@@ -161,14 +161,22 @@ const CAR_DATABASE = [
             engine: false
         }
     },
+
+  // Racing
     {
-        id: 'sf-23',
-        name: 'Ferrari SF-23',
+        id: 'f1',
+        name: 'Ferrari F1',
         category: 'racing',
         price: 15000000, 
         image: 'https://images.unsplash.com/photo-1677254887307-a69620027063?q=80&w=2000', 
-        modelFile: 'f1_sf23_2023.glb',
-        config: { scale: 1.0, y: 0 },
+        modelFile: 'f1.glb',
+        config: { scale: 1.0, y: -0.7 },
+        facts: [
+            { label: 'Engine', value: '1.6L V6 Turbo Hybrid' },
+            { label: 'Power', value: '1000+ CV' },
+            { label: 'Weight', value: '798 kg' },
+            { label: 'Top Speed', value: '340+ km/h' }
+        ],
         options: {
             paint: false,
             rims: false,
@@ -189,6 +197,12 @@ const CAR_DATABASE = [
         image: 'https://images.unsplash.com/photo-1681285434673-887465655767?q=80&w=2000',
         modelFile: '296_gt3.glb',
         config: { scale: 140.0, y: 0 },
+        facts: [
+            { label: 'Engine', value: '3.9L Twin-Turbo V6' },
+            { label: 'Power', value: '600 CV (BoP)' },
+            { label: 'Chassis', value: 'Aluminum Monocoque' },
+            { label: 'Success', value: '24h Nürburgring Winner' }
+        ],
         options: {
             paint: true, // Teams customize liveries
             rims: true,

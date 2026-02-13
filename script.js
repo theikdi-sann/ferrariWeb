@@ -26,6 +26,16 @@ if (typeof getCarById === 'function') {
     };
 }
 
+// Update Exit Link based on Category
+const exitLink = document.getElementById('exit-link');
+if (exitLink && activeCar) {
+    if (activeCar.category === 'racing') {
+        exitLink.href = 'racing.html';
+    } else {
+        exitLink.href = 'models.html';
+    }
+}
+
 const currentModel = activeCar.name;
 const currentPriceBase = activeCar.price;
 
@@ -202,9 +212,63 @@ if (document.getElementById('3d-container')) {
     }
 
     function updateConfiguratorUI() {
-        if (!activeCar || !activeCar.options) return; 
+        if (!activeCar) return; 
 
-        const options = activeCar.options;
+        // RACING MODE: Show Facts, Hide Config
+        if (activeCar.category === 'racing') {
+            // Hide all standard options
+            const optionIds = ['opt-paint', 'opt-rims-color', 'opt-calipers-color', 'opt-interior', 'opt-stripes', 'opt-carbon', 'opt-tint', 'opt-details', 'opt-engine'];
+            optionIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
+
+            // Hide Price/Checkout Footer
+            const footer = document.querySelector('.bg-black.p-8.border-t');
+            if (footer) footer.style.display = 'none';
+
+            // Inject Facts if not present
+            const sidebar = document.getElementById('config-sidebar');
+            if (sidebar && !document.getElementById('racing-facts')) {
+                const factsContainer = document.createElement('div');
+                factsContainer.id = 'racing-facts';
+                factsContainer.className = 'mb-10 animate-fade-in-up';
+                
+                let factsHTML = `<h4 class="font-display text-lg text-ferrari-red uppercase tracking-widest mb-6">Technical Specifications</h4>`;
+                
+                if (activeCar.facts) {
+                    factsHTML += `<div class="space-y-4">`;
+                    activeCar.facts.forEach(fact => {
+                        factsHTML += `
+                            <div class="flex justify-between border-b border-gray-800 pb-2">
+                                <span class="text-gray-400 text-xs font-bold uppercase tracking-widest">${fact.label}</span>
+                                <span class="text-white text-sm font-display uppercase">${fact.value}</span>
+                            </div>
+                        `;
+                    });
+                    factsHTML += `</div>`;
+                } else {
+                    factsHTML += `<p class="text-gray-500 text-sm">Race-spec configuration. No modifications allowed.</p>`;
+                }
+
+                // Add "Explore Only" message
+                factsHTML += `
+                    <div class="mt-8 p-4 bg-gray-900 border border-gray-800">
+                        <i class="fas fa-info-circle text-ferrari-red mb-2"></i>
+                        <p class="text-gray-400 text-xs leading-relaxed">
+                            This is a competition vehicle. Configuration is locked to official team livery and specifications.
+                        </p>
+                    </div>
+                `;
+
+                factsContainer.innerHTML = factsHTML;
+                sidebar.insertBefore(factsContainer, sidebar.firstChild);
+            }
+            return; // Stop standard UI updates
+        }
+
+        // STANDARD ROAD CAR MODE
+        const options = activeCar.options || {};
         const mapping = {
             'paint': ['opt-paint'],
             'rims': ['opt-rims-color'],
