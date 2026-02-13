@@ -9,7 +9,7 @@ const CAR_DATABASE = [
         price: 3500000,
         image: './images/enzo.png',
         modelFile: 'enzo.glb',
-        config: { scale: 140.0, y: 0 },
+        config: { scale: 135.0, y: 0 },
         options: {
             paint: true,
             rims: true,
@@ -45,9 +45,9 @@ const CAR_DATABASE = [
         id: 'roma',
         name: 'Roma',
         price: 4000000,
-        image: './images/laferrari.png',
+        image: './images/roma.png',
         modelFile: 'roma.glb',
-        config: { scale: 150, y: 0.5},
+        config: { scale: 137, y: 0},
         options: {
             paint: true,
             rims: true,
@@ -68,7 +68,7 @@ const CAR_DATABASE = [
         price: 4000000,
         image: './images/f40.png',
         modelFile: 'f40.glb',
-        config: { scale: 150, y: 0},
+        config: { scale: 140, y: 0},
         options: {
             paint: true,
             rims: true,
@@ -89,7 +89,7 @@ const CAR_DATABASE = [
         price: 4000000,
         image: './images/laferrari.png',
         modelFile: 'laferrari.glb',
-        config: { scale: 1.5, y: 0.5},
+        config: { scale: 1.4, y: 0},
         options: {
             paint: true,
             rims: true,
@@ -128,7 +128,7 @@ const CAR_DATABASE = [
     price: 900000,
     image: './images/488_pista.png',
     modelFile: '488_pista.glb',
-    config: { scale: 140, y: 0},
+    config: { scale: 90, y: 0},
     options: {
         paint: true,
         rims: true,
