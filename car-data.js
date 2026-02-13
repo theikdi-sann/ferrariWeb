@@ -161,6 +161,46 @@ const CAR_DATABASE = [
             engine: false
         }
     },
+    {
+        id: 'sf-23',
+        name: 'Ferrari SF-23',
+        category: 'racing',
+        price: 15000000, 
+        image: 'https://images.unsplash.com/photo-1677254887307-a69620027063?q=80&w=2000', 
+        modelFile: 'f1_sf23_2023.glb',
+        config: { scale: 1.0, y: 0 },
+        options: {
+            paint: false,
+            rims: false,
+            calipers: false,
+            interior: false,
+            stripes: false,
+            carbon: true,
+            tint: false,
+            details: true,
+            engine: false
+        }
+    },
+    {
+        id: '296-gt3',
+        name: 'Ferrari 296 GT3',
+        category: 'racing',
+        price: 650000,
+        image: 'https://images.unsplash.com/photo-1681285434673-887465655767?q=80&w=2000',
+        modelFile: '296_gt3.glb',
+        config: { scale: 140.0, y: 0 },
+        options: {
+            paint: true, // Teams customize liveries
+            rims: true,
+            calipers: true,
+            interior: false,
+            stripes: true,
+            carbon: true,
+            tint: false,
+            details: true,
+            engine: false
+        }
+    },
 ];
 
 // Helper to find car by ID (or name for backward compatibility)

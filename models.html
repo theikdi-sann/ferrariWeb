@@ -40,7 +40,7 @@
     <script src="car-data.js"></script>
     <script>
         const grid = document.getElementById('models-grid');
-        CAR_DATABASE.forEach(car => {
+        CAR_DATABASE.filter(car => car.category !== 'racing').forEach(car => {
             const card = document.createElement('a');
             card.href = `configurator.html?id=${car.id}`;
             card.className = "group relative h-[400px] bg-ferrari-dark overflow-hidden block border border-gray-900 hover:border-ferrari-red transition duration-500";
