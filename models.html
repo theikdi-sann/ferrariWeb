@@ -39,24 +39,27 @@
 
     <script src="car-data.js"></script>
     <script>
-        const grid = document.getElementById('models-grid');
-        CAR_DATABASE.filter(car => car.category !== 'racing').forEach(car => {
-            const card = document.createElement('a');
-            card.href = `configurator.html?id=${car.id}`;
-            card.className = "group relative h-[400px] bg-ferrari-dark overflow-hidden block border border-gray-900 hover:border-ferrari-red transition duration-500";
-            card.innerHTML = `
-                <div class="absolute inset-0 card-zoom">
-                    <img src="${car.image}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100" alt="${car.name}">
-                </div>
-                <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black to-transparent">
-                    <h3 class="font-display text-3xl uppercase mb-2 translate-y-2 group-hover:translate-y-0 transition duration-500">${car.name}</h3>
-                    <div class="flex items-center text-xs text-ferrari-red uppercase tracking-widest opacity-0 group-hover:opacity-100 transition duration-500 delay-100">
-                        Configure <i class="fas fa-arrow-right ml-2"></i>
+        renderCarGrid(
+            'models-grid', 
+            car => car.category !== 'racing', 
+            car => {
+                const card = document.createElement('a');
+                card.href = `configurator.html?id=${car.id}`;
+                card.className = "group relative h-[400px] bg-ferrari-dark overflow-hidden block border border-gray-900 hover:border-ferrari-red transition duration-500";
+                card.innerHTML = `
+                    <div class="absolute inset-0 card-zoom">
+                        <img src="${car.image}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100" alt="${car.name}">
                     </div>
-                </div>
-            `;
-            grid.appendChild(card);
-        });
+                    <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black to-transparent">
+                        <h3 class="font-display text-3xl uppercase mb-2 translate-y-2 group-hover:translate-y-0 transition duration-500">${car.name}</h3>
+                        <div class="flex items-center text-xs text-ferrari-red uppercase tracking-widest opacity-0 group-hover:opacity-100 transition duration-500 delay-100">
+                            Configure <i class="fas fa-arrow-right ml-2"></i>
+                        </div>
+                    </div>
+                `;
+                return card;
+            }
+        );
     </script>
     <script src="script.js" defer></script>
 </body>

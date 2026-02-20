@@ -13,13 +13,13 @@ const CAR_DATABASE = [
         options: {
             paint: true,
             rims: true,
-            calipers: true,
+            calipers: false,
             interior: true,
             stripes: false,
             carbon: true,
             tint: true,
-            details: true,
-            engine: true
+            details: false,
+            engine:false 
         }
     },
     {
@@ -32,7 +32,7 @@ const CAR_DATABASE = [
         options: {
             paint: true,
             rims: true,
-            calipers: true,
+            calipers: false,
             interior: true,
             stripes: false,
             carbon: false,
@@ -51,13 +51,13 @@ const CAR_DATABASE = [
         options: {
             paint: true,
             rims: true,
-            calipers: true,
+            calipers: false,
             interior: true,
             stripes: false,
             carbon: true,
-            tint: true,
-            details: true,
-            engine: true
+            tint: false,
+            details: false,
+            engine:false 
         }
     },
 
@@ -72,13 +72,13 @@ const CAR_DATABASE = [
         options: {
             paint: true,
             rims: true,
-            calipers: true,
+            calipers: false,
             interior: true,
             stripes: false,
             carbon: true,
             tint: true,
-            details: true,
-            engine: true
+            details: false,
+            engine:false 
         }
     },
 
@@ -93,13 +93,13 @@ const CAR_DATABASE = [
         options: {
             paint: true,
             rims: true,
-            calipers: true,
+            calipers: false,
             interior: true,
             stripes: false,
             carbon: true,
             tint: true,
-            details: true,
-            engine: true
+            details: false,
+            engine: false 
         }
     },
 
@@ -113,13 +113,13 @@ const CAR_DATABASE = [
         options: {
             paint: true,
             rims: true,
-            calipers: true,
+            calipers: false,
             interior: true,
-            stripes: true,
+            stripes: false,
             carbon: true,
-            tint: true,
-            details: true,
-            engine: true
+            tint: false,
+            details: false,
+            engine:false 
         }
     },
   {
@@ -138,7 +138,7 @@ const CAR_DATABASE = [
         carbon: true,
         tint: true,
         details: true,
-        engine: true
+        engine: false
     }
 
   },
@@ -154,7 +154,7 @@ const CAR_DATABASE = [
             rims: true,
             calipers: false,
             interior: true,
-            stripes: true,
+            stripes: false,
             carbon: true,
             tint: false,
             details: false,
@@ -168,7 +168,7 @@ const CAR_DATABASE = [
         name: 'Ferrari F1',
         category: 'racing',
         price: 15000000, 
-        image: 'https://images.unsplash.com/photo-1677254887307-a69620027063?q=80&w=2000', 
+        image: './images/f1.png', 
         modelFile: 'f1.glb',
         config: { scale: 1.0, y: -0.7 },
         facts: [
@@ -194,7 +194,7 @@ const CAR_DATABASE = [
         name: 'Ferrari 296 GT3',
         category: 'racing',
         price: 650000,
-        image: 'https://images.unsplash.com/photo-1681285434673-887465655767?q=80&w=2000',
+        image: './images/269gt3.png',
         modelFile: '296_gt3.glb',
         config: { scale: 140.0, y: 0 },
         facts: [
@@ -222,4 +222,36 @@ function getCarById(id) {
     return CAR_DATABASE.find(c => c.id === id) || 
            CAR_DATABASE.find(c => c.name === id) || 
            CAR_DATABASE[0]; // Default to first car
+}
+
+/**
+ * Reusable function to render car grids
+ * @param {string} containerId - The DOM ID of the container
+ * @param {function} filterFn - Function to filter CAR_DATABASE (e.g., car => car.category === 'racing')
+ * @param {function} templateFn - Function returning HTML string for a car object
+ */
+function renderCarGrid(containerId, filterFn, templateFn) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const filteredCars = CAR_DATABASE.filter(filterFn);
+    
+    filteredCars.forEach(car => {
+        const cardWrapper = document.createElement('div');
+        // If template returns a single element string, we can set innerHTML
+        // But for flexibility, let's assume templateFn returns the inner HTML content 
+        // and we wrap it, or templateFn returns a DOM node.
+        // Let's stick to the previous pattern: create a wrapper (a or div) and set innerHTML.
+        
+        // However, models.html uses <a> as wrapper, racing.html uses <div>.
+        // So templateFn should probably return the whole element or we handle it.
+        
+        const element = templateFn(car);
+        if (element instanceof HTMLElement) {
+            container.appendChild(element);
+        } else {
+            // Fallback if string is returned
+            container.innerHTML += element;
+        }
+    });
 }
