@@ -19,7 +19,7 @@ const CAR_DATABASE = [
             carbon: true,
             tint: true,
             details: false,
-            engine:false 
+            engine: true 
         }
     },
     {
@@ -38,7 +38,7 @@ const CAR_DATABASE = [
             carbon: false,
             tint: true,
             details: false,
-            engine: false
+            engine:true 
         }
     },
     {
@@ -57,7 +57,7 @@ const CAR_DATABASE = [
             carbon: true,
             tint: false,
             details: false,
-            engine:false 
+            engine:true 
         }
     },
 
@@ -78,7 +78,7 @@ const CAR_DATABASE = [
             carbon: true,
             tint: true,
             details: false,
-            engine:false 
+            engine:true 
         }
     },
 
@@ -99,7 +99,7 @@ const CAR_DATABASE = [
             carbon: true,
             tint: true,
             details: false,
-            engine: false 
+            engine: true 
         }
     },
 
@@ -119,7 +119,7 @@ const CAR_DATABASE = [
             carbon: true,
             tint: false,
             details: false,
-            engine:false 
+            engine:true 
         }
     },
   {
@@ -138,7 +138,7 @@ const CAR_DATABASE = [
         carbon: true,
         tint: true,
         details: true,
-        engine: false
+        engine:true 
     }
 
   },
@@ -158,7 +158,7 @@ const CAR_DATABASE = [
             carbon: true,
             tint: false,
             details: false,
-            engine: false
+            engine:true 
         }
     },
 
@@ -186,7 +186,7 @@ const CAR_DATABASE = [
             carbon: true,
             tint: false,
             details: true,
-            engine: false
+            engine:true 
         }
     },
     {
@@ -212,7 +212,7 @@ const CAR_DATABASE = [
             carbon: true,
             tint: false,
             details: true,
-            engine: false
+            engine:true 
         }
     },
 ];

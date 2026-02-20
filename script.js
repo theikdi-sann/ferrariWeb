@@ -217,7 +217,7 @@ if (document.getElementById('3d-container')) {
         // RACING MODE: Show Facts, Hide Config
         if (activeCar.category === 'racing') {
             // Hide all standard options
-            const optionIds = ['opt-paint', 'opt-rims-color', 'opt-calipers-color', 'opt-interior', 'opt-stripes', 'opt-carbon', 'opt-tint', 'opt-details', 'opt-engine'];
+            const optionIds = ['opt-paint', 'opt-rims-color', 'opt-calipers-color', 'opt-interior', 'opt-stripes', 'opt-carbon', 'opt-tint', 'opt-details'];
             optionIds.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = 'none';
