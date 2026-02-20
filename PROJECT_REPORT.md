@@ -7,15 +7,16 @@ This report outlines the development and modernization of the official Ferrari b
 
 ### Functional Requirements
 *   **3D Car Configurator**: Users must be able to view cars in 3D, rotate them, and customize paint, rims, and interior colors.
-*   **Model Catalogue**: A filterable gallery displaying all available road and race cars.
-*   **Racing Hub**: A dedicated section for Scuderia Ferrari, featuring F1 car models and technical specifications.
+*   **Model Catalogue**: A filterable gallery displaying all available road cars, separating them from race-only models.
+*   **Racing Hub**: A dedicated section for Scuderia Ferrari, featuring 3D models of the SF-23 and 296 GT3 with technical specifications.
+*   **Collections & Experiences**: Dedicated pages for genuine car parts/accessories and historical brand experiences.
 *   **Responsive Design**: The site must be fully functional on desktop, tablet, and mobile devices.
-*   **Centralized Data**: Car data (prices, images, model files) must be managed in a single source of truth.
+*   **Centralized Data**: Car data (prices, images, model files, configs) must be managed in a single source of truth.
 
 ### Non-Functional Requirements
-*   **Performance**: Fast loading times for 3D assets using progress indicators.
-*   **Visual Fidelity**: High-quality PBR (Physically Based Rendering) materials for realistic car paint and lighting.
-*   **Maintainability**: Modular code structure with reusable components (e.g., Navigation Bar).
+*   **Performance**: Real-time loading progress indicators for 3D assets.
+*   **Visual Fidelity**: High-quality PBR materials with configurable `metalness` for realistic paint finishes.
+*   **Maintainability**: Modular code structure with reusable components (Navigation Bar).
 
 ## 3. System Design
 
@@ -26,10 +27,13 @@ The project follows a client-side architecture without a heavy backend dependenc
 *   **Data Layer**: A JSON-like JavaScript object (`CAR_DATABASE` in `car-data.js`) acts as the local database.
 
 ### File Structure
-*   `index.html`: Landing page.
+*   `index.html`: Landing page with video background.
 *   `configurator.html`: The core 3D application.
+*   `racing.html`: F1 Engineering showcase.
+*   `collections.html`: Genuine parts and accessories catalogue.
+*   `experiences.html`: Historical timeline and interactive experiences.
 *   `script.js`: Main logic controller (3D scene setup, UI updates).
-*   `car-data.js`: Centralized data repository.
+*   `car-data.js`: Centralized data repository including car specs and file paths.
 *   `components.js`: Reusable UI components (Navbar).
 *   `/models`: Directory for .glb 3D assets.
 
@@ -37,8 +41,8 @@ The project follows a client-side architecture without a heavy backend dependenc
 
 | Team Member | Role | Responsibilities |
 | :--- | :--- | :--- |
-| **Alice** | Lead Frontend Dev | UI/UX implementation, Tailwind styling, Responsive layout. |
-| **Bob** | 3D Graphics Specialist | Three.js integration, GLTF model optimization, PBR material setup. |
+| **Alice** | Lead Frontend Dev | UI/UX implementation, Tailwind styling, Responsive layout, Collections/Experiences redesign. |
+| **Bob** | 3D Graphics Specialist | Three.js integration, GLTF model optimization, PBR material setup (`metalness`), Progress Bar logic. |
 | **Charlie** | Content Manager | Data entry (`car-data.js`), sourcing images/videos, copywriting for Racing page. |
 | **Dave** | QA Engineer | Cross-browser testing, performance auditing, bug tracking. |
 
@@ -56,11 +60,13 @@ Effective communication was critical when integrating the 3D canvas with the DOM
 
 ### Implemented Features
 *   ✅ **Real-Time 3D Configurator**: Fully functional with orbit controls and material changes.
-*   ✅ **Dynamic Racing Section**: "F1 Engineering" page showcasing SF-23 and 296 GT3.
-*   ✅ **Video Hero Background**: Immersive video playback on the homepage.
-*   ✅ **Reusable Components**: Modular Navigation Bar implemented across all pages.
-*   ✅ **Loading Interface**: Custom progress bar for 3D model loading.
-*   ✅ **Centralized Config**: `car-data.js` now controls all car properties, including `metalness` for PBR.
+*   ✅ **Dynamic Racing Section**: "F1 Engineering" page showcasing SF-23 and 296 GT3 with correct 3D assets.
+*   ✅ **Video Hero Background**: Immersive video playback on the homepage using local assets.
+*   ✅ **Reusable Components**: Modular Navigation Bar (`components.js`) implemented across all pages.
+*   ✅ **Loading Interface**: Custom real-time progress bar for 3D model loading.
+*   ✅ **Centralized Config**: `car-data.js` now controls all car properties, including `metalness` for PBR and technical facts for race cars.
+*   ✅ **Collections Redesign**: Transformed from fashion to "Genuine Parts & Performance" with a workshop aesthetic.
+*   ✅ **Experiences Redesign**: Refocused on "Heritage & Passion" with a historical timeline.
 
 ### Challenges and Solutions
 *   **Challenge**: "Custom UV set" warnings in console for downloaded GLB models.
@@ -69,6 +75,8 @@ Effective communication was critical when integrating the 3D canvas with the DOM
     *   **Solution**: Implemented a "Category" check in `script.js`. Race cars now trigger a specific "Explore Mode" that hides customization tools and shows technical facts instead.
 *   **Challenge**: Hardcoded Navbars made updates tedious.
     *   **Solution**: Refactored navigation into `components.js` and dynamically rendered it on all pages.
+*   **Challenge**: Engine Bay color options were irrelevant for some models.
+    *   **Solution**: Removed the color picker but retained the "View Engine" camera animation for inspecting details.
 
 ## 7. Remaining Features and Timeline
 
@@ -80,4 +88,4 @@ Effective communication was critical when integrating the 3D canvas with the DOM
 | **Test Drive Booking** | Form integration with CRM for scheduling. | 1 Week |
 
 ## 8. Conclusion
-The Ferrari Website Modernization project has successfully delivered a premium, high-performance digital experience. By shifting to a 3D-first approach and modularizing the codebase, we have created a scalable foundation for future features. The site now accurately reflects the prestige and innovation of the Ferrari brand.
+The Ferrari Website Modernization project has successfully delivered a premium, high-performance digital experience. By shifting to a 3D-first approach and modularizing the codebase, we have created a scalable foundation for future features. The site now accurately reflects the prestige, history, and innovation of the Ferrari brand.
