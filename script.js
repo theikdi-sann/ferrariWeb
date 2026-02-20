@@ -419,16 +419,31 @@ if (document.getElementById('3d-container')) {
                         node.castShadow = true;
                         node.receiveShadow = true;
                         
+                        // Debug Material Names
+                        if (node.material) {
+                            console.log(`[Material Debug] Mesh: "${node.name}", Material: "${node.material.name}"`);
+                        }
+
                         // Boost environment map intensity for the car paint
                         if (node.material) {
                              node.material.envMapIntensity = 1.0;
                              
                              // Apply Metalness from Config
                              if (targetConfig.metalness !== undefined) {
-                                 if (node.material.name.toLowerCase().includes('paint') || 
-                                     node.material.name.toLowerCase().includes('body') || 
-                                     node.material.name.toLowerCase().includes('metal_car')) {
+                                 const name = node.material.name.toLowerCase();
+                                 if (name.includes('paint') || 
+                                     name.includes('body') || 
+                                     name.includes('metal_car') ||
+                                     name.includes('shell') ||
+                                     name.includes('chassis') ||
+                                     name.includes('exterior') ||
+                                     name.includes('livery')) {
+                                     
                                      node.material.metalness = targetConfig.metalness;
+                                     // Also update roughness to match a typical car paint if it's too rough
+                                     // node.material.roughness = 0.1; 
+                                     node.material.needsUpdate = true;
+                                     console.log(`[Configurator] Applied metalness ${targetConfig.metalness} to material: ${name}`);
                                  }
                              }
 
