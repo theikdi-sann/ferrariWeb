@@ -13,31 +13,9 @@
 <body class="bg-ferrari-black text-white font-sans antialiased">
 
     <!-- Navbar -->
-    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-6 border-b border-white/10 bg-black/80 backdrop-blur-md">
-        <div class="container mx-auto px-6 flex justify-between items-center">
-            <div class="hidden lg:flex space-x-8 text-xs font-bold tracking-widest uppercase items-center">
-                <a href="models.html" class="nav-link hover:text-gray-300 transition">Models</a>
-                <a href="racing.html" class="text-ferrari-red">Racing</a>
-                <a href="collections.html" class="nav-link hover:text-gray-300 transition">Collections</a>
-            </div>
-
-            <div class="flex-shrink-0 mx-auto lg:mx-0">
-                <a href="index.html" class="flex flex-col items-center group">
-                    <div class="w-8 h-10 bg-ferrari-yellow rounded-t-sm flex items-center justify-center relative shadow-lg group-hover:scale-110 transition duration-300">
-                         <i class="fa-solid fa-horse text-black text-xl mb-1"></i>
-                         <div class="absolute top-0 w-full h-[2px] bg-green-600"></div>
-                         <div class="absolute top-[2px] w-full h-[2px] bg-white"></div>
-                         <div class="absolute top-[4px] w-full h-[2px] bg-red-600"></div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="hidden lg:flex space-x-8 text-xs font-bold tracking-widest uppercase">
-                <a href="experiences.html" class="nav-link hover:text-gray-300 transition">Experiences</a>
-                <a href="store.html" class="nav-link hover:text-gray-300 transition">Store</a>
-            </div>
-        </div>
-    </nav>
+    <div id="navbar-container"></div>
+    <script src="components.js"></script>
+    <script>renderNavbar('racing');</script>
 
     <!-- Hero Section -->
     <header class="relative h-[60vh] flex items-center justify-center overflow-hidden">

@@ -16,45 +16,9 @@
         <i class="fa-solid fa-horse text-ferrari-red prancing-horse-loader"></i>
     </div>
 
-    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-6 border-b border-white/10 hover:bg-black/80 hover:backdrop-blur-md">
-        <div class="container mx-auto px-6 flex justify-between items-center">
-            
-            <div class="hidden lg:flex space-x-8 text-xs font-bold tracking-widest uppercase items-center">
-                
-                <div class="relative group">
-                    <button class="nav-link hover:text-gray-300 transition focus:outline-none flex items-center">
-                        Models <i class="fas fa-chevron-down ml-1 text-[10px] text-ferrari-red"></i>
-                    </button>
-                    <div class="absolute left-0 mt-2 w-48 bg-ferrari-dark border border-gray-800 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-2">
-                        <a href="configurator.html?model=SF90 XX Stradale&price=850000&img=https://images.unsplash.com/photo-1592198084033-aade902d1aae?q=80&w=2940" class="block px-6 py-3 hover:bg-ferrari-red hover:text-white transition border-b border-gray-800">SF90 XX</a>
-                        <a href="configurator.html?model=portofino&price=320000&img=https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=2940" class="block px-6 py-3 hover:bg-ferrari-red hover:text-white transition border-b border-gray-800">Ferrari Portofino</a>
-                        <a href="configurator.html?model=LaFerrari&price=4000000&img=https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=2940"class="block px-6 py-3 hover:bg-ferrari-red hover:text-white transition border-b border-gray-800">LaFerrari</a>
-                        <a href="models.html" class="block px-6 py-3 text-gray-400 hover:text-white text-[10px] uppercase tracking-wider">View All Models</a>
-                    </div>
-                </div>
-
-                <a href="racing.html" class="nav-link hover:text-gray-300 transition">Racing</a>
-                <a href="collections.html" class="nav-link hover:text-gray-300 transition">Collections</a>
-            </div>
-
-            <div class="flex-shrink-0 mx-auto lg:mx-0">
-                <a href="index.html" class="flex flex-col items-center group">
-                    <div class="w-8 h-10 bg-ferrari-yellow rounded-t-sm flex items-center justify-center relative shadow-lg group-hover:scale-110 transition duration-300">
-                         <i class="fa-solid fa-horse text-black text-xl mb-1"></i>
-                         <div class="absolute top-0 w-full h-[2px] bg-green-600"></div>
-                         <div class="absolute top-[2px] w-full h-[2px] bg-white"></div>
-                         <div class="absolute top-[4px] w-full h-[2px] bg-red-600"></div>
-                    </div>
-                    <span class="mt-1 font-display font-bold tracking-widest text-lg">FERRARI</span>
-                </a>
-            </div>
-
-            <div class="hidden lg:flex space-x-8 text-xs font-bold tracking-widest uppercase">
-                <a href="experiences.html" class="nav-link hover:text-gray-300 transition">Experiences</a>
-                <a href="store.html" class="nav-link hover:text-gray-300 transition">Store</a>
-            </div>
-        </div>
-    </nav>
+    <div id="navbar-container"></div>
+    <script src="components.js"></script>
+    <script>renderNavbar('');</script>
 
     <header class="relative h-screen w-full overflow-hidden flex items-center justify-center">
         <!-- Video Background -->

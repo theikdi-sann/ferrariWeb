@@ -30,6 +30,13 @@
 
             <div id="car-preview-container" class="relative w-full h-full transition-all duration-1000 ease-in-out">
                 <div id="3d-container" class="w-full h-full"></div>
+                <!-- Model Loading Overlay -->
+                <div id="model-loader" class="absolute inset-0 flex flex-col items-center justify-center bg-gray-200 z-50">
+                    <span class="text-black font-display font-bold uppercase tracking-widest mb-2" id="model-loading-text">Loading Model...</span>
+                    <div class="w-48 h-1 bg-gray-300 rounded-full overflow-hidden">
+                        <div id="model-progress-bar" class="h-full bg-ferrari-red w-0 transition-all duration-200"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

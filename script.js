@@ -400,10 +400,25 @@ if (document.getElementById('3d-container')) {
 
         function loadCarModel(filename) {
             console.log(`[Configurator] Attempting to load: models/${filename}`);
+            
+            // Show Loader
+            const loaderOverlay = document.getElementById('model-loader');
+            const progressBar = document.getElementById('model-progress-bar');
+            const progressText = document.getElementById('model-loading-text');
+            
+            if(loaderOverlay) loaderOverlay.style.display = 'flex';
+
             loader.load(`models/${filename}`, function (gltf) {
                 console.log(`[Configurator] Success! Loaded: models/${filename}`);
                 model = gltf.scene;
                 
+                // Hide Loader
+                if(loaderOverlay) {
+                    gsap.to(loaderOverlay, { opacity: 0, duration: 0.5, onComplete: () => {
+                        loaderOverlay.style.display = 'none';
+                    }});
+                }
+
                 // Apply Configuration from DB
                 model.scale.set(targetConfig.scale, targetConfig.scale, targetConfig.scale);
                 model.position.y = targetConfig.y;
@@ -421,7 +436,7 @@ if (document.getElementById('3d-container')) {
                         
                         // Debug Material Names
                         if (node.material) {
-                            console.log(`[Material Debug] Mesh: "${node.name}", Material: "${node.material.name}"`);
+                            // console.log(`[Material Debug] Mesh: "${node.name}", Material: "${node.material.name}"`);
                         }
 
                         // Boost environment map intensity for the car paint
@@ -443,7 +458,7 @@ if (document.getElementById('3d-container')) {
                                      // Also update roughness to match a typical car paint if it's too rough
                                      // node.material.roughness = 0.1; 
                                      node.material.needsUpdate = true;
-                                     console.log(`[Configurator] Applied metalness ${targetConfig.metalness} to material: ${name}`);
+                                     // console.log(`[Configurator] Applied metalness ${targetConfig.metalness} to material: ${name}`);
                                  }
                              }
 
@@ -472,13 +487,24 @@ if (document.getElementById('3d-container')) {
                 // Only start animation loop if not already running (though init calls this once)
                 animate();
 
-            }, undefined, function (error) {
+            }, 
+            // onProgress Callback
+            function (xhr) {
+                if (xhr.lengthComputable) {
+                    const percentComplete = (xhr.loaded / xhr.total) * 100;
+                    if(progressBar) progressBar.style.width = percentComplete + '%';
+                    if(progressText) progressText.innerText = `Loading... ${Math.round(percentComplete)}%`;
+                }
+            }, 
+            // onError Callback
+            function (error) {
                 console.warn(`Failed to load models/${filename}. Falling back to default.`);
                 if (filename !== 'scene.gltf') {
                     loadCarModel('scene.gltf');
                 } else {
                     console.error('Critical: Default model failed to load.', error);
                     document.getElementById('configurator-title').innerText = "Model Not Found";
+                    if(progressText) progressText.innerText = "Error Loading Model";
                 }
             });
         }
@@ -820,7 +846,7 @@ if (document.getElementById('3d-container')) {
     window.changeEngineColor = function(btn, colorName) {
          handleSelection(btn, 'engine', null, colorName);
          // Logic to change engine color if applicable in your model...
-         console.log('Engine color changed to', colorName);
+         // console.log('Engine color changed to', colorName);
     };
 
     window.proceedToCheckout = function() {

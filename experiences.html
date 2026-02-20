@@ -3,97 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ferrari | Experiences</title>
+    <title>Ferrari | Heritage & Experiences</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="theme.js"></script>
 </head>
-<body class="bg-ferrari-black text-white font-sans antialiased">
+<body class="bg-black text-white font-sans antialiased">
 
-    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-6 border-b border-white/10 bg-black/80 backdrop-blur-md">
-        <div class="container mx-auto px-6 flex justify-between items-center">
-            <div class="hidden lg:flex space-x-8 text-xs font-bold tracking-widest uppercase items-center">
-                <a href="models.html" class="nav-link hover:text-gray-300 transition">Models</a>
-                <a href="racing.html" class="nav-link hover:text-gray-300 transition">Racing</a>
-                <a href="collections.html" class="nav-link hover:text-gray-300 transition">Collections</a>
-            </div>
+    <!-- Navbar -->
+    <div id="navbar-container"></div>
+    <script src="components.js"></script>
+    <script>renderNavbar('experiences');</script>
 
-            <div class="flex-shrink-0 mx-auto lg:mx-0">
-                <a href="index.html" class="flex flex-col items-center group">
-                    <div class="w-8 h-10 bg-ferrari-yellow rounded-t-sm flex items-center justify-center relative shadow-lg group-hover:scale-110 transition duration-300">
-                         <i class="fa-solid fa-horse text-black text-xl mb-1"></i>
-                         <div class="absolute top-0 w-full h-[2px] bg-green-600"></div>
-                         <div class="absolute top-[2px] w-full h-[2px] bg-white"></div>
-                         <div class="absolute top-[4px] w-full h-[2px] bg-red-600"></div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="hidden lg:flex space-x-8 text-xs font-bold tracking-widest uppercase">
-                <a href="experiences.html" class="text-ferrari-red">Experiences</a>
-                <a href="store.html" class="nav-link hover:text-gray-300 transition">Store</a>
-            </div>
+    <!-- Hero Section -->
+    <header class="relative h-[80vh] flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1597687210387-e45b6f621576?q=80&w=2832')] bg-cover bg-center sepia hover:sepia-0 transition duration-[2000ms]">
+            <div class="absolute inset-0 bg-black/50"></div>
         </div>
-    </nav>
-
-    <!-- Fullscreen Slider Section -->
-    <section class="relative h-screen flex items-end pb-20 overflow-hidden">
-        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=2940')] bg-cover bg-center grayscale hover:grayscale-0 transition duration-1000 transform hover:scale-105">
-            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+        <div class="relative z-10 text-center animate-fade-in-up">
+            <h2 class="text-ferrari-yellow font-bold tracking-[0.5em] uppercase text-sm mb-4">Since 1947</h2>
+            <h1 class="font-display font-black text-6xl md:text-9xl uppercase leading-none text-white mb-6">The Legend</h1>
+            <p class="text-gray-300 max-w-xl mx-auto text-lg font-light italic">
+                "I have no interest in life other than racing cars." - Enzo Ferrari
+            </p>
         </div>
-        
-        <div class="relative z-10 container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-end">
-            <div>
-                <h3 class="text-ferrari-red font-bold tracking-[0.3em] uppercase text-sm mb-4">Driving Courses</h3>
-                <h1 class="font-display font-medium text-6xl uppercase leading-tight mb-6">Corso Pilota</h1>
-                <p class="text-gray-300 max-w-lg mb-8">
-                    Master the art of driving at the Fiorano Circuit. Exclusive courses designed to elevate your skills to professional levels.
-                </p>
-                <a href="#" class="bg-white text-black px-8 py-3 text-sm font-bold uppercase tracking-widest hover:bg-ferrari-red hover:text-white transition duration-300">Book Course</a>
-            </div>
-        </div>
-    </section>
+    </header>
 
-    <!-- Experience Cards -->
-    <section class="py-20 bg-ferrari-dark">
+    <!-- Timeline / History -->
+    <section class="py-24 bg-ferrari-dark border-b border-gray-900">
         <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                
-                <div class="bg-black border border-gray-800 p-8 group hover:border-ferrari-red transition duration-300 cursor-pointer">
-                    <div class="h-48 bg-gray-900 mb-6 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1552519507-da8b1227ad4b?q=80&w=800" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition duration-500">
+            <h3 class="text-ferrari-red font-bold tracking-widest uppercase text-sm mb-12 text-center">75+ Years of Passion</h3>
+            
+            <div class="relative">
+                <!-- Center Line -->
+                <div class="hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-[1px] bg-gray-800"></div>
+
+                <!-- Event 1 -->
+                <div class="flex flex-col md:flex-row items-center justify-between mb-16 relative">
+                    <div class="w-full md:w-5/12 text-right pr-0 md:pr-12 mb-6 md:mb-0">
+                        <span class="text-4xl font-display text-white block mb-2">1947</span>
+                        <h4 class="text-xl font-bold uppercase mb-2">The First Ferrari</h4>
+                        <p class="text-gray-400 text-sm">The 125 S, the first car to bear the Ferrari name, drives out of the Maranello factory gates.</p>
                     </div>
-                    <h3 class="font-display text-2xl uppercase mb-2 group-hover:text-ferrari-red transition">Maranello Tour</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">A private journey inside the factory where legends are born.</p>
-                    <span class="text-xs font-bold uppercase tracking-widest border-b border-gray-700 pb-1 group-hover:border-ferrari-red">Learn More</span>
+                    <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-ferrari-red rounded-full hidden md:block border-4 border-black"></div>
+                    <div class="w-full md:w-5/12 pl-0 md:pl-12">
+                        <img src="https://images.unsplash.com/photo-1614200179396-2bdb77ebf8b3?q=80&w=800" class="w-full h-48 object-cover grayscale hover:grayscale-0 transition duration-500 rounded border border-gray-800">
+                    </div>
                 </div>
 
-                <div class="bg-black border border-gray-800 p-8 group hover:border-ferrari-red transition duration-300 cursor-pointer">
-                    <div class="h-48 bg-gray-900 mb-6 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=800" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition duration-500">
+                <!-- Event 2 -->
+                <div class="flex flex-col md:flex-row-reverse items-center justify-between mb-16 relative">
+                    <div class="w-full md:w-5/12 text-left pl-0 md:pl-12 mb-6 md:mb-0">
+                        <span class="text-4xl font-display text-white block mb-2">1962</span>
+                        <h4 class="text-xl font-bold uppercase mb-2">250 GTO</h4>
+                        <p class="text-gray-400 text-sm">The birth of an icon. The 250 GTO dominates GT racing and becomes the most coveted car in history.</p>
                     </div>
-                    <h3 class="font-display text-2xl uppercase mb-2 group-hover:text-ferrari-red transition">Museums</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Discover the history of the Prancing Horse in Maranello and Modena.</p>
-                    <span class="text-xs font-bold uppercase tracking-widest border-b border-gray-700 pb-1 group-hover:border-ferrari-red">Buy Tickets</span>
+                    <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-ferrari-red rounded-full hidden md:block border-4 border-black"></div>
+                    <div class="w-full md:w-5/12 pr-0 md:pr-12">
+                        <img src="https://images.unsplash.com/photo-1632242687456-626a457471fb?q=80&w=800" class="w-full h-48 object-cover grayscale hover:grayscale-0 transition duration-500 rounded border border-gray-800">
+                    </div>
                 </div>
 
-                <div class="bg-black border border-gray-800 p-8 group hover:border-ferrari-red transition duration-300 cursor-pointer">
-                    <div class="h-48 bg-gray-900 mb-6 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1506469717960-43352851d01a?q=80&w=800" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition duration-500">
+                <!-- Event 3 -->
+                <div class="flex flex-col md:flex-row items-center justify-between relative">
+                    <div class="w-full md:w-5/12 text-right pr-0 md:pr-12 mb-6 md:mb-0">
+                        <span class="text-4xl font-display text-white block mb-2">2000s</span>
+                        <h4 class="text-xl font-bold uppercase mb-2">Golden Era</h4>
+                        <p class="text-gray-400 text-sm">Michael Schumacher and Ferrari form an unstoppable partnership, securing 5 consecutive world titles.</p>
                     </div>
-                    <h3 class="font-display text-2xl uppercase mb-2 group-hover:text-ferrari-red transition">Cavalcade</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Join an exclusive touring event for Ferrari owners in breathtaking locations.</p>
-                    <span class="text-xs font-bold uppercase tracking-widest border-b border-gray-700 pb-1 group-hover:border-ferrari-red">Register</span>
+                    <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-ferrari-red rounded-full hidden md:block border-4 border-black"></div>
+                    <div class="w-full md:w-5/12 pl-0 md:pl-12">
+                        <img src="https://images.unsplash.com/photo-1599959326885-7243263776c9?q=80&w=800" class="w-full h-48 object-cover grayscale hover:grayscale-0 transition duration-500 rounded border border-gray-800">
+                    </div>
                 </div>
 
             </div>
         </div>
     </section>
 
-    <footer class="bg-black text-white border-t border-gray-900 py-12 text-center text-xs text-gray-600">
-        &copy; 2026 Ferrari Experiences.
+    <!-- Fun Experiences Grid -->
+    <section class="py-20 bg-black">
+        <div class="container mx-auto px-6">
+            <h3 class="text-ferrari-red font-bold tracking-widest uppercase text-sm mb-12 text-center">Live the Passion</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Card 1: Esports -->
+                <div class="group relative h-[400px] overflow-hidden border border-gray-800">
+                    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1000" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-8">
+                        <div class="flex items-center text-ferrari-yellow mb-2">
+                            <i class="fas fa-gamepad mr-2"></i> <span class="text-xs font-bold uppercase tracking-widest">Digital</span>
+                        </div>
+                        <h3 class="font-display text-2xl uppercase mb-2 text-white">Ferrari Esports</h3>
+                        <p class="text-gray-400 text-sm mb-4 line-clamp-2">Join the virtual grid. Compete in the official Ferrari Velas Esports Series and prove your speed.</p>
+                        <a href="#" class="inline-block border-b border-ferrari-red pb-1 text-xs font-bold uppercase tracking-widest hover:text-ferrari-red transition">Join Series</a>
+                    </div>
+                </div>
+
+                <!-- Card 2: Theme Park -->
+                <div class="group relative h-[400px] overflow-hidden border border-gray-800">
+                    <img src="https://images.unsplash.com/photo-1513807016779-d51c0c026263?q=80&w=1000" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-8">
+                        <div class="flex items-center text-ferrari-red mb-2">
+                            <i class="fas fa-rocket mr-2"></i> <span class="text-xs font-bold uppercase tracking-widest">Adrenaline</span>
+                        </div>
+                        <h3 class="font-display text-2xl uppercase mb-2 text-white">Ferrari World</h3>
+                        <p class="text-gray-400 text-sm mb-4 line-clamp-2">Experience the G-force of an F1 car on the world's fastest roller coaster in Abu Dhabi.</p>
+                        <a href="#" class="inline-block border-b border-ferrari-red pb-1 text-xs font-bold uppercase tracking-widest hover:text-ferrari-red transition">Get Tickets</a>
+                    </div>
+                </div>
+
+                <!-- Card 3: Classiche -->
+                <div class="group relative h-[400px] overflow-hidden border border-gray-800">
+                    <img src="https://images.unsplash.com/photo-1552519507-da8b1227ad4b?q=80&w=1000" class="w-full h-full object-cover transition duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-8">
+                        <div class="flex items-center text-gray-400 mb-2">
+                            <i class="fas fa-wrench mr-2"></i> <span class="text-xs font-bold uppercase tracking-widest">Restoration</span>
+                        </div>
+                        <h3 class="font-display text-2xl uppercase mb-2 text-white">Ferrari Classiche</h3>
+                        <p class="text-gray-400 text-sm mb-4 line-clamp-2">Preserving history. Official certification and restoration services for classic Ferraris.</p>
+                        <a href="#" class="inline-block border-b border-ferrari-red pb-1 text-xs font-bold uppercase tracking-widest hover:text-ferrari-red transition">Learn More</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-ferrari-dark text-white border-t border-gray-900 py-12 text-center text-xs text-gray-600">
+        &copy; 2026 Ferrari Heritage.
     </footer>
 
     <script src="script.js" defer></script>
