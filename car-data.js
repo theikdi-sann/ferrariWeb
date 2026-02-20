@@ -9,7 +9,7 @@ const CAR_DATABASE = [
         price: 3500000,
         image: './images/enzo.png',
         modelFile: 'enzo.glb',
-        config: { scale: 135.0, y: -0.8},
+        config: { scale: 135.0, y: -0.8, metalness: 0.9},
         options: {
             paint: true,
             rims: true,
@@ -28,7 +28,7 @@ const CAR_DATABASE = [
         price: 320000,
         image: './images/portofino.png',
         modelFile: 'portofino.glb',
-        config: { scale: 0.8, y: -0.5},
+        config: { scale: 0.8, y: -0.5, metalness: 0.7},
         options: {
             paint: true,
             rims: true,
@@ -47,7 +47,7 @@ const CAR_DATABASE = [
         price: 4000000,
         image: './images/roma.png',
         modelFile: 'roma.glb',
-        config: { scale: 137, y: -0.5},
+        config: { scale: 137, y: -0.5, metalness: 0.7},
         options: {
             paint: true,
             rims: true,
@@ -68,7 +68,7 @@ const CAR_DATABASE = [
         price: 4000000,
         image: './images/f40.png',
         modelFile: 'f40.glb',
-        config: { scale: 140, y: -0.8},
+        config: { scale: 140, y: -0.8, metalness: 0.7},
         options: {
             paint: true,
             rims: true,
@@ -89,7 +89,7 @@ const CAR_DATABASE = [
         price: 4000000,
         image: './images/laferrari.png',
         modelFile: 'laferrari.glb',
-        config: { scale: 1.4, y: -0.8},
+        config: { scale: 1.4, y: -0.8, metalness: 0.7},
         options: {
             paint: true,
             rims: true,
@@ -109,7 +109,7 @@ const CAR_DATABASE = [
         price: 850000,
         image: './images/sf90.png',
         modelFile: 'sf90_spider.glb',
-        config: { scale: 140, y: -0.8},
+        config: { scale: 140, y: -0.8, metalness: 0.7},
         options: {
             paint: true,
             rims: true,
@@ -128,7 +128,7 @@ const CAR_DATABASE = [
     price: 900000,
     image: './images/488_pista.png',
     modelFile: '488_pista.glb',
-    config: { scale: 90, y: -0.5},
+    config: { scale: 90, y: -0.5, metalness: 0.7},
     options: {
         paint: true,
         rims: true,
@@ -148,7 +148,7 @@ const CAR_DATABASE = [
         price: 850000,
         image: './images/monza-sp1.png',
         modelFile: 'monza-sp1.glb',
-        config: { scale: 140, y: -0.6},
+        config: { scale: 140, y: -0.6,metalness: 0.7},
         options: {
             paint: true,
             rims: true,
@@ -170,7 +170,7 @@ const CAR_DATABASE = [
         price: 15000000, 
         image: './images/f1.png', 
         modelFile: 'f1.glb',
-        config: { scale: 1.0, y: -0.7 },
+        config: { scale: 1.0, y: -0.7, metalness: 0.7 },
         facts: [
             { label: 'Engine', value: '1.6L V6 Turbo Hybrid' },
             { label: 'Power', value: '1000+ CV' },
@@ -196,7 +196,7 @@ const CAR_DATABASE = [
         price: 650000,
         image: './images/269gt3.png',
         modelFile: '296_gt3.glb',
-        config: { scale: 140.0, y: 0 },
+        config: { scale: 140.0, y: 0 ,metalness: 0.7},
         facts: [
             { label: 'Engine', value: '3.9L Twin-Turbo V6' },
             { label: 'Power', value: '600 CV (BoP)' },

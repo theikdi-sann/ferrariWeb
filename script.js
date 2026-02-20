@@ -422,6 +422,15 @@ if (document.getElementById('3d-container')) {
                         // Boost environment map intensity for the car paint
                         if (node.material) {
                              node.material.envMapIntensity = 1.0;
+                             
+                             // Apply Metalness from Config
+                             if (targetConfig.metalness !== undefined) {
+                                 if (node.material.name.toLowerCase().includes('paint') || 
+                                     node.material.name.toLowerCase().includes('body') || 
+                                     node.material.name.toLowerCase().includes('metal_car')) {
+                                     node.material.metalness = targetConfig.metalness;
+                                 }
+                             }
 
                              // FIX: Make Glass Transparent to see Engine
                              if (node.material.name.toLowerCase().includes('glass')) {
