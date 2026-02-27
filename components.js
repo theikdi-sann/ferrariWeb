@@ -10,9 +10,9 @@ function renderNavbar(activePage) {
     
     container.innerHTML = `
     <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-6 border-b border-white/10 bg-black/80 backdrop-blur-md">
-        <div class="container mx-auto px-6 flex justify-between items-center">
+        <div class="container mx-auto px-6 flex justify-between items-center relative">
             
-            <div class="hidden lg:flex space-x-8 text-xs font-bold tracking-widest uppercase items-center">
+            <div class="hidden lg:flex space-x-8 text-xs font-bold tracking-widest uppercase items-center flex-1">
                 
                 <div class="relative group">
                     <button class="nav-link hover:text-gray-300 transition focus:outline-none flex items-center ${activePage === 'models' ? 'text-ferrari-red' : ''}">
@@ -30,19 +30,20 @@ function renderNavbar(activePage) {
                 <a href="collections.html" class="nav-link hover:text-gray-300 transition ${activePage === 'collections' ? 'text-ferrari-red' : ''}">Collections</a>
             </div>
 
-            <div class="flex-shrink-0 mx-auto lg:mx-0">
+            <!-- Absolute Centered Logo -->
+            <div class="absolute left-1/2 transform -translate-x-1/2 flex justify-center mt-1">
                 <a href="index.html" class="flex flex-col items-center group">
-                    <div class="w-8 h-10 bg-ferrari-yellow rounded-t-sm flex items-center justify-center relative shadow-lg group-hover:scale-110 transition duration-300">
-                         <i class="fa-solid fa-horse text-black text-xl mb-1"></i>
-                         <div class="absolute top-0 w-full h-[2px] bg-green-600"></div>
-                         <div class="absolute top-[2px] w-full h-[2px] bg-white"></div>
-                         <div class="absolute top-[4px] w-full h-[2px] bg-red-600"></div>
+                    <div class="w-6 h-8 bg-ferrari-yellow rounded-t-sm flex items-center justify-center relative shadow-lg group-hover:scale-110 transition duration-300">
+                         <i class="fa-solid fa-horse text-black text-base mb-1"></i>
+                         <div class="absolute top-0 w-full h-[1px] bg-green-600"></div>
+                         <div class="absolute top-[1px] w-full h-[1px] bg-white"></div>
+                         <div class="absolute top-[2px] w-full h-[1px] bg-red-600"></div>
                     </div>
-                    <span class="mt-1 font-display font-bold tracking-widest text-lg text-white">FERRARI</span>
+                    <span class="mt-1 font-display font-bold tracking-widest text-sm text-white">FERRARI</span>
                 </a>
             </div>
 
-            <div class="hidden lg:flex space-x-8 text-xs font-bold tracking-widest uppercase">
+            <div class="hidden lg:flex space-x-8 text-xs font-bold tracking-widest uppercase flex-1 justify-end">
                 <a href="experiences.html" class="nav-link hover:text-gray-300 transition ${activePage === 'experiences' ? 'text-ferrari-red' : ''}">Experiences</a>
             </div>
         </div>

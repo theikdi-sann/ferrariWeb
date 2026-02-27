@@ -491,7 +491,8 @@ if (document.getElementById('3d-container')) {
             // onProgress Callback
             function (xhr) {
                 if (xhr.lengthComputable) {
-                    const percentComplete = (xhr.loaded / xhr.total) * 100;
+                    let percentComplete = xhr.total > 0 ? (xhr.loaded / xhr.total) * 100 : 100;
+                    percentComplete = Math.min(percentComplete, 100);
                     if(progressBar) progressBar.style.width = percentComplete + '%';
                     if(progressText) progressText.innerText = `Loading... ${Math.round(percentComplete)}%`;
                 }
