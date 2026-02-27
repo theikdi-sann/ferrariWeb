@@ -9,7 +9,7 @@ function renderNavbar(activePage) {
     // We can preserve the scroll logic in script.js by targeting the nav element we create here.
     
     container.innerHTML = `
-    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-6 border-b border-white/10 bg-black/80 backdrop-blur-md">
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-10 border-b border-white/10 bg-black/80 backdrop-blur-md">
         <div class="container mx-auto px-6 flex justify-between items-center relative">
             
             <div class="hidden lg:flex space-x-8 text-xs font-bold tracking-widest uppercase items-center flex-1">
@@ -33,7 +33,7 @@ function renderNavbar(activePage) {
             <!-- Absolute Centered Logo -->
             <div class="absolute left-1/2 transform -translate-x-1/2 flex justify-center mt-1">
                 <a href="index.html" class="flex flex-col items-center group">
-                    <div class="w-6 h-8 bg-ferrari-yellow rounded-t-sm flex items-center justify-center relative shadow-lg group-hover:scale-110 transition duration-300">
+                    <div class="w-5 h-6 bg-ferrari-yellow rounded-t-sm flex items-center justify-center relative shadow-lg group-hover:scale-110 transition duration-300">
                          <i class="fa-solid fa-horse text-black text-base mb-1"></i>
                          <div class="absolute top-0 w-full h-[1px] bg-green-600"></div>
                          <div class="absolute top-[1px] w-full h-[1px] bg-white"></div>

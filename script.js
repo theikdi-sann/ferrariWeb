@@ -116,14 +116,17 @@ let currentOptions = {
 
 // --- 2. GLOBAL UI INTERACTIONS ---
 const navbar = document.getElementById('navbar');
+const navLogo = document.getElementById('nav-logo');
 if (navbar) {
     window.addEventListener('scroll', function() {
         if (window.scrollY > 50) {
             navbar.classList.add('bg-black/80', 'backdrop-blur-md', 'shadow-lg', 'py-4', 'border-transparent');
             navbar.classList.remove('py-6', 'border-white/10');
+            if (navLogo) navLogo.classList.add('scale-[0.85]', 'origin-top');
         } else {
             navbar.classList.remove('bg-black/80', 'backdrop-blur-md', 'shadow-lg', 'py-4', 'border-transparent');
             navbar.classList.add('py-6', 'border-white/10');
+            if (navLogo) navLogo.classList.remove('scale-[0.85]', 'origin-top');
         }
     });
 }
